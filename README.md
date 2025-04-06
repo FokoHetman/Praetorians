@@ -1,1 +1,1 @@
-hoi4 ale starożytny rzym itd.
+hoi4 ale starożytny rzym etc.
