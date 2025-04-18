@@ -29,8 +29,3 @@ func gen_poly() -> CollisionPolygon2D:
 func gen_area() -> Area2D:
 	self.area.add_child(gen_poly())
 	return self.area
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass

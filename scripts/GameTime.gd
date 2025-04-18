@@ -39,9 +39,11 @@ func _init(g_year,g_day,g_hour):
 	hour = g_hour
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	var tick_count = 0
 	while true:
-		await wait(1/speed)
-		#print('tick')
+		await wait(1.0/speed)
+		tick_count += 1
+		# print('tick ', tick_count)
 		if !paused:
 			hour+=speed
 			if hour>24:

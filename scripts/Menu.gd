@@ -17,7 +17,6 @@ var time = load("res://scripts/GameTime.gd").new(-753,110,0)
 
 
 
-
 func _draw() -> void:
 	draw_line(Vector2.ZERO, Vector2.DOWN*300, Color.AQUA, 0)
 	
@@ -35,6 +34,7 @@ func disintegrate(pos):
 	return pos + Vector2((randi()% 20-2)*10, (randi()% 20-2)*10)
 
 func _ready():
+	time.name = 'GameTime'
 	add_child(time)
 	
 	var sicily = state_supplier.new("Sicily", Vector2.ZERO+ 118*Vector2.DOWN + 122*Vector2.RIGHT, [Vector2.LEFT*2+Vector2.DOWN, Vector2.DOWN*4+Vector2.LEFT*2, Vector2.DOWN*4+Vector2.RIGHT, Vector2.RIGHT*3+Vector2.DOWN*3, Vector2.RIGHT*4, Vector2.RIGHT*5+Vector2.DOWN*2, Vector2.DOWN*2+Vector2.RIGHT, Vector2.RIGHT*4+Vector2.DOWN*3, Vector2.DOWN*2+Vector2.RIGHT*4,
@@ -134,8 +134,5 @@ func _ready():
 	#update() # Replace with function body.
 
 
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	$ui/Time/Date.text = time.format()

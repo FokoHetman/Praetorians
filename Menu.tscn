@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cc7oe8tjpxrp7"]
+[gd_scene load_steps=13 format=3 uid="uid://cc7oe8tjpxrp7"]
 
 [ext_resource type="Script" path="res://scripts/Menu.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/Camera2D.gd" id="2"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://yv1htub45aup" path="res://tablica/roman_1.png" id="6_xywcy"]
 [ext_resource type="Texture2D" uid="uid://doq55a52a1gfc" path="res://gamebackground.png" id="7_hg2qg"]
 [ext_resource type="Script" path="res://scripts/button/plus_button.gd" id="7_y6gp7"]
+[ext_resource type="Script" path="res://scripts/button/minus_button.gd" id="8_mmvnq"]
 [ext_resource type="Texture2D" uid="uid://cqdq83biruyv1" path="res://desk.png" id="8_tfenj"]
 
 [sub_resource type="FontFile" id="1"]
@@ -350,6 +351,16 @@ cache/0/17/0/kerning_overrides/13/0 = Vector2(0, 0)
 cache/0/17/0/kerning_overrides/14/0 = Vector2(0, 0)
 cache/0/17/0/kerning_overrides/15/0 = Vector2(0, 0)
 cache/0/17/0/kerning_overrides/17/0 = Vector2(0, 0)
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/40/0/ascent = 0.0
+cache/0/40/0/descent = 0.0
+cache/0/40/0/underline_position = 0.0
+cache/0/40/0/underline_thickness = 0.0
+cache/0/40/0/scale = 1.0
 
 [node name="Menu" type="Node2D"]
 position = Vector2(115, 144)
@@ -369,25 +380,23 @@ texture = ExtResource("3_3viev")
 [node name="ui" type="CanvasLayer" parent="."]
 
 [node name="state_info_ui" type="Sprite2D" parent="ui"]
-position = Vector2(166, 1003)
-scale = Vector2(0.602696, 0.48789)
+position = Vector2(218, 968.5)
+scale = Vector2(0.855469, 0.855469)
 texture = ExtResource("3")
 
 [node name="font-resize" type="Sprite2D" parent="ui/state_info_ui"]
-scale = Vector2(0.203578, 1)
 
 [node name="state_name" type="Label" parent="ui/state_info_ui/font-resize"]
 texture_filter = 2
 anchors_preset = -1
 anchor_top = -0.073
 anchor_right = 0.051
-offset_left = -1157.33
-offset_top = -106.508
-offset_right = -1116.33
-offset_bottom = -40.5085
-scale = Vector2(11.566, 1.57977)
+offset_left = -229.0
+offset_top = -99.947
+offset_right = 227.949
+offset_bottom = 91.98
 theme_override_fonts/font = SubResource("1")
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 40
 text = "hello"
 
 [node name="Time" type="Sprite2D" parent="ui"]
@@ -411,6 +420,7 @@ offset_top = -29.4894
 offset_right = 80.4905
 offset_bottom = -21.4894
 scale = Vector2(5.99649, 6.74869)
+script = ExtResource("8_mmvnq")
 
 [node name="Date" type="Label" parent="ui/Time"]
 offset_left = -67.1304
@@ -418,6 +428,7 @@ offset_top = 39.1953
 offset_right = -27.1304
 offset_bottom = 62.1953
 scale = Vector2(1.35773, 1.25575)
+text = "110.4.753 B.C"
 
 [node name="Icon" type="Sprite2D" parent="."]
 position = Vector2(115, 12.5)
