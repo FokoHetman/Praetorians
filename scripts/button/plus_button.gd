@@ -6,6 +6,6 @@ func _ready():
 
 func _pressed():
 	var time = get_node('/root/Menu/GameTime')
-	if !time.speed == 5:
+	if !time.speed == 20:
 		time.speed += 1
 	print(time.speed)

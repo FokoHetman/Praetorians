@@ -13,7 +13,7 @@ func format() -> String:
 	var era = "A.C"
 	if year<0:
 		era = "B.C"
-	return str(day) + "." + str(get_month(day)) + "." + str(abs(year)) + " " + era
+	return str(get_day(day)) + "." + str(get_month(day)) + "." + str(abs(year)) + " " + era
 
 
 func is_leap(year: int) -> bool:
@@ -26,18 +26,29 @@ func get_month(day: int) -> int:
 	for i in month_lens:
 		var neg = i
 		if typeof(i) == TYPE_STRING:
-			neg = int(is_leap(year))*28 + int(!is_leap(year))*29
-		if nday<neg:
+			neg = int(is_leap(year))*29 + int(!is_leap(year))*28
+		if nday<=neg:
 			break
 		nday-=neg
 		month += 1
 	return month
-	
+
+func get_day(day: int) -> int:
+	var nday = day
+	for i in month_lens:
+		if typeof(i) == TYPE_STRING:
+			i = int(is_leap(year))*29 + int(!is_leap(year))*28
+		if nday <= i:
+			break
+		nday-=i
+	return nday
+
+
 func _init(g_year,g_day,g_hour):
 	year = g_year
 	day = g_day
 	hour = g_hour
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
 	var tick_count = 0
 	while true:
@@ -53,10 +64,6 @@ func _ready():
 				year+=1
 				day = 1
 			hour+=speed
-			
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-	
+
 func wait(seconds: float) -> void:
 	await get_tree().create_timer(seconds).timeout
