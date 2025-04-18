@@ -12,14 +12,30 @@ var position
 var curves
 var area
 var poly
-func _init(id="unspecified", position=Vector2.ZERO, curves=[]):
+
+
+var type
+var population
+var man_power
+var cities_number
+var cities_max
+
+
+func _init(id="unspecified", position=Vector2.ZERO, curves=[], type="unspecified", population=0, man_power=0, cities_number=0, cities_max=0):
 	self.id = id
 	self.position = position
 	self.curves = curves
 	self.area = state_area.new(self)
 	self.poly = CollisionPolygon2D.new()
 	
-# Called when the node enters the scene tree for the first time.
+	self.type = type
+	self.population = population
+	self.man_power = man_power
+	self.cities_number = cities_number
+	self.cities_max = cities_max
+	
+
+
 func getID():
 	return self.id
 

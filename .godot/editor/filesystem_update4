@@ -1,4 +1,8 @@
 res://default_env.tres
 res://Menu.tscn
 res://scripts/button/plus_button.gd
-res://scripts/GameTime.gd
+res://scripts/state.gd
+res://scripts/state_area.gd
+res://scripts/Fractions.gd
+res://scripts/Menu.gd
+res://stop.gd
