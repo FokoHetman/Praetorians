@@ -2,16 +2,16 @@
 
 [ext_resource type="Script" path="res://scripts/Menu.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/Camera2D.gd" id="2"]
-[ext_resource type="Texture2D" uid="uid://cx2ss66jqv506" path="res://tablica_temp.png" id="3"]
-[ext_resource type="Texture2D" uid="uid://scatb08b3wo7" path="res://rome.png" id="3_3viev"]
+[ext_resource type="Texture2D" uid="uid://cx2ss66jqv506" path="res://textures/tablica_temp.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://scatb08b3wo7" path="res://textures/rome.png" id="3_3viev"]
 [ext_resource type="FontFile" uid="uid://dqpibld1vkda" path="res://DaysOne.ttf" id="4"]
-[ext_resource type="Texture2D" uid="uid://cowjwtl3y4iv1" path="res://icon.png" id="6_ercwm"]
-[ext_resource type="Texture2D" uid="uid://yv1htub45aup" path="res://tablica/roman_1.png" id="6_xywcy"]
-[ext_resource type="Texture2D" uid="uid://doq55a52a1gfc" path="res://gamebackground.png" id="7_hg2qg"]
+[ext_resource type="Texture2D" uid="uid://cowjwtl3y4iv1" path="res://textures/icon.png" id="6_ercwm"]
+[ext_resource type="Texture2D" uid="uid://yv1htub45aup" path="res://textures/tablica/roman_1.png" id="6_xywcy"]
+[ext_resource type="Texture2D" uid="uid://doq55a52a1gfc" path="res://textures/gamebackground.png" id="7_hg2qg"]
 [ext_resource type="Script" path="res://scripts/button/plus_button.gd" id="7_y6gp7"]
 [ext_resource type="Script" path="res://scripts/button/minus_button.gd" id="8_mmvnq"]
-[ext_resource type="Texture2D" uid="uid://cqdq83biruyv1" path="res://desk.png" id="8_tfenj"]
-[ext_resource type="Script" path="res://stop.gd" id="9_4lufq"]
+[ext_resource type="Texture2D" uid="uid://cqdq83biruyv1" path="res://textures/desk.png" id="8_tfenj"]
+[ext_resource type="Script" path="res://scripts/button/stop.gd" id="9_4lufq"]
 
 [sub_resource type="FontFile" id="1"]
 resource_name = "DaysOne"
