@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" path="res://scripts/Menu.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/Camera2D.gd" id="2"]
-[ext_resource type="Texture2D" uid="uid://cx2ss66jqv506" path="res://textures/tablica_temp.png" id="3"]
 [ext_resource type="Texture2D" uid="uid://scatb08b3wo7" path="res://textures/rome.png" id="3_3viev"]
 [ext_resource type="FontFile" uid="uid://dqpibld1vkda" path="res://DaysOne.ttf" id="4"]
 [ext_resource type="Texture2D" uid="uid://cowjwtl3y4iv1" path="res://textures/icon.png" id="6_ercwm"]
@@ -12,6 +11,9 @@
 [ext_resource type="Script" path="res://scripts/button/minus_button.gd" id="8_mmvnq"]
 [ext_resource type="Texture2D" uid="uid://cqdq83biruyv1" path="res://textures/desk.png" id="8_tfenj"]
 [ext_resource type="Script" path="res://scripts/button/stop.gd" id="9_4lufq"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7jcka"]
+load_path = "res://.godot/imported/tablica_temp.png-025b80bac3e18f46d45cddded84027cd.ctex"
 
 [sub_resource type="FontFile" id="1"]
 resource_name = "DaysOne"
@@ -362,6 +364,11 @@ cache/0/40/0/descent = 0.0
 cache/0/40/0/underline_position = 0.0
 cache/0/40/0/underline_thickness = 0.0
 cache/0/40/0/scale = 1.0
+cache/0/41/0/ascent = 0.0
+cache/0/41/0/descent = 0.0
+cache/0/41/0/underline_position = 0.0
+cache/0/41/0/underline_thickness = 0.0
+cache/0/41/0/scale = 1.0
 
 [node name="Menu" type="Node2D"]
 position = Vector2(115, 144)
@@ -383,7 +390,7 @@ texture = ExtResource("3_3viev")
 [node name="state_info_ui" type="Sprite2D" parent="ui"]
 position = Vector2(218, 968.5)
 scale = Vector2(0.855469, 0.855469)
-texture = ExtResource("3")
+texture = SubResource("CompressedTexture2D_7jcka")
 
 [node name="font-resize" type="Sprite2D" parent="ui/state_info_ui"]
 
@@ -393,10 +400,10 @@ anchors_preset = -1
 anchor_top = -0.073
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -229.0
-offset_top = -99.927
-offset_right = 228.949
-offset_bottom = -48.0
+offset_left = -217.0
+offset_top = -100.927
+offset_right = 231.0
+offset_bottom = -49.0
 theme_override_fonts/font = SubResource("1")
 theme_override_font_sizes/font_size = 40
 text = "hello"
@@ -411,6 +418,40 @@ offset_right = 229.0
 offset_bottom = 102.0
 theme_override_fonts/font = ExtResource("4")
 theme_override_font_sizes/font_size = 25
+
+[node name="country_info_ui" type="Sprite2D" parent="ui"]
+visible = false
+position = Vector2(218, 700)
+scale = Vector2(0.855469, 0.855469)
+texture = SubResource("CompressedTexture2D_7jcka")
+
+[node name="font-resize" type="Sprite2D" parent="ui/country_info_ui"]
+
+[node name="country_name" type="Label" parent="ui/country_info_ui/font-resize"]
+texture_filter = 2
+anchors_preset = -1
+anchor_top = -0.073
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -217.0
+offset_top = -100.927
+offset_right = 231.0
+offset_bottom = -49.0
+theme_override_fonts/font = SubResource("1")
+theme_override_font_sizes/font_size = 40
+text = "Country name"
+
+[node name="country_info" type="Label" parent="ui/country_info_ui/font-resize"]
+texture_filter = 2
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = -228.0
+offset_top = -45.0
+offset_right = 229.0
+offset_bottom = 102.0
+theme_override_fonts/font = ExtResource("4")
+theme_override_font_sizes/font_size = 25
+text = "info"
 
 [node name="Time" type="Sprite2D" parent="ui"]
 position = Vector2(1764.17, 72.3485)

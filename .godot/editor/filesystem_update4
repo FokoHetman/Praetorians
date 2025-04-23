@@ -1,3 +1,5 @@
 res://default_env.tres
 res://Menu.tscn
 res://scripts/button/plus_button.gd
+res://scripts/state_area.gd
+res://scripts/Country.gd
