@@ -48,15 +48,18 @@ func _init(g_year,g_day,g_hour):
 	year = g_year
 	day = g_day
 	hour = g_hour
+	
+	
+var default_multiplier = 6
 
 func _ready():
 	var tick_count = 0
 	while true:
-		await wait(1.0/speed)
+		await wait(1.0/(speed*default_multiplier))
 		tick_count += 1
 		# print('tick ', tick_count)
 		if !paused:
-			hour+=speed
+			hour+=speed * default_multiplier
 			if hour>24:
 				day+=1
 				hour = 1
@@ -66,4 +69,5 @@ func _ready():
 			hour+=speed
 
 func wait(seconds: float) -> void:
-	await get_tree().create_timer(seconds).timeout
+	if get_tree() != null:
+		await get_tree().create_timer(seconds).timeout

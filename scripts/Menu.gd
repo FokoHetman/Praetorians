@@ -13,11 +13,22 @@ var states = []
 var border_line_width = 1.2
 
 var border_color = Color.from_hsv(32/360, .41, .39, 1)
+var select_color = Color.from_hsv(45/360, 75/360, 96/360, 1)
 var game_size = Vector2(0.226, 0.308)
 
 
 var time = load("res://scripts/GameTime.gd").new(-753,110,0)
 
+var commons = load("res://scripts/commons.gd")
+
+func draw_state(state):
+	var last_line = state.position
+	for line in state.curves:
+		var color = border_color
+		draw_line(last_line, last_line+line, color, border_line_width)
+		last_line = last_line+line
+	draw_line(last_line, state.position, border_color, border_line_width)
+	print("Drawn: ", state.id)
 
 func _draw() -> void:
 	draw_line(Vector2.ZERO, Vector2.DOWN*300, Color.AQUA, 0)
@@ -25,12 +36,7 @@ func _draw() -> void:
 	draw_string(font, Vector2.ZERO+Vector2.DOWN*30+Vector2.LEFT*50, 'Ave Caesar!')
 	print("Drawing states...")
 	for state in states:
-		var last_line = state.position
-		for line in state.curves:
-			draw_line(last_line, last_line+line, border_color, border_line_width)
-			last_line = last_line+line
-		draw_line(last_line, state.position, border_color, border_line_width)
-		print("Drawn: ", state.id)
+		draw_state(state)
 
 func disintegrate(pos):
 	return pos + Vector2((randi()% 20-2)*10, (randi()% 20-2)*10)
@@ -38,6 +44,10 @@ func disintegrate(pos):
 func _ready():
 	time.name = 'GameTime'
 	add_child(time)
+	$ui/Time.position.x = get_viewport().size.x - 0.1*get_viewport().size.x
+	$ui/Time.position.y = get_viewport().size.y - 0.9*get_viewport().size.y
+	$ui/Time.scale.x = get_viewport().size.x / 1920 * $ui/Time.scale.x
+	$ui/Time.scale.y = get_viewport().size.y / 1080 * $ui/Time.scale.y
 	
 	define_states()
 	define_countries()
@@ -143,6 +153,29 @@ func define_states():
 func define_countries():
 	var rome = country_supplier.new("Rome",["Sicily","Calabria","Basilicata","Apulia","Campania","Molise","Lazio","Abruzzo","Umbria","Marche"])
 	countries.append(rome)
+
+
+func _input(event) -> void:
+	if event is InputEventMouseMotion:
+		#print("hover")
+		reset_hover()
+
+func reset_selection():
+	for state in states:
+		state.selected = false
+func reset_hover():
+	for state in states:
+		state.hovered = false
+
+func redraw_focus():
+	for state in states:
+		if state.selected:
+			state.area.get_children()[1].color = commons.select_color
+		elif state.hovered:
+			state.area.get_children()[1].color = commons.hover_color
+		else:
+			state.area.get_children()[1].color = commons.default_state_color
+
 
 func _process(delta):
 	$ui/Time/Date.text = time.format()

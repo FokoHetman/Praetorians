@@ -9,8 +9,8 @@ func _ready():
 	self.theme.set_color("Button1Off", "", Color.DIM_GRAY)
 
 func _pressed():
-	var time = get_node('/root/Menu/GameTime')
+	var time = get_node('/root/Map/GameTime')
 	if !time.speed == 5:
 		time.speed += 1
-		get_node("/root/Menu/ui/Time").texture = roman[time.speed - 1]
+		get_node("/root/Map/ui/Time").texture = roman[time.speed - 1]
 	print(time.speed)

@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://df0eryqvlub5d"]
+
+[ext_resource type="Script" uid="uid://clrcgwglgl6xi" path="res://scripts/Camera2D.gd" id="1_tm2yi"]
+
+[node name="Province" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(145, 127)
+position_smoothing_enabled = true
+script = ExtResource("1_tm2yi")

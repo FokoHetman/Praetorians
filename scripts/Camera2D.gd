@@ -62,5 +62,5 @@ func _input(event):
 
 
 func _ready():
-	bg_size = get_node("/root/Menu/Background").texture.get_size()
+	bg_size = get_node("/root/Map/Background").texture.get_size()
 	pass
