@@ -1,8 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://cc7oe8tjpxrp7"]
+[gd_scene load_steps=16 format=3 uid="uid://cc7oe8tjpxrp7"]
 
 [ext_resource type="Script" uid="uid://doy7kjbab1381" path="res://scripts/Menu.gd" id="1_bhm4d"]
 [ext_resource type="Script" uid="uid://clrcgwglgl6xi" path="res://scripts/Camera2D.gd" id="2_fhlij"]
 [ext_resource type="Texture2D" uid="uid://scatb08b3wo7" path="res://textures/rome.png" id="3_dbu0r"]
+[ext_resource type="Texture2D" uid="uid://dnicuc2vjtnxb" path="res://textures/menu_background.png" id="3_jrcb4"]
+[ext_resource type="Script" uid="uid://bemur66xojytk" path="res://scripts/menu_settings.gd" id="4_fhlij"]
 [ext_resource type="FontFile" uid="uid://dqpibld1vkda" path="res://DaysOne.ttf" id="4_jrcb4"]
 [ext_resource type="Texture2D" uid="uid://yv1htub45aup" path="res://textures/tablica/roman_1.png" id="5_b3mxb"]
 [ext_resource type="Script" uid="uid://b16t45g3ci5we" path="res://scripts/button/plus_button.gd" id="6_saq0m"]
@@ -373,16 +375,104 @@ cache/0/41/0/scale = 1.0
 [node name="Map" type="Node2D"]
 script = ExtResource("1_bhm4d")
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(145, 127)
-position_smoothing_enabled = true
-script = ExtResource("2_fhlij")
+[node name="Menu" type="CanvasLayer" parent="."]
+layer = 2
+script = ExtResource("4_fhlij")
 
-[node name="Rome" type="Sprite2D" parent="."]
+[node name="menu_background" type="Sprite2D" parent="Menu"]
+self_modulate = Color(1, 1, 1, 0.321569)
+position = Vector2(1280, 720)
+texture = ExtResource("3_jrcb4")
+
+[node name="settings" type="Sprite2D" parent="Menu"]
+
+[node name="b_sound_settings" type="Button" parent="Menu/settings"]
+offset_left = 300.0
+offset_top = 700.0
+offset_right = 400.0
+offset_bottom = 750.0
+text = "sound"
+
+[node name="b_video_settings" type="Button" parent="Menu/settings"]
+offset_left = 300.0
+offset_top = 800.0
+offset_right = 400.0
+offset_bottom = 850.0
+text = "video"
+
+[node name="back" type="Button" parent="Menu/settings"]
+offset_left = 300.0
+offset_top = 900.0
+offset_right = 400.0
+offset_bottom = 950.0
+text = "back"
+
+[node name="video_settings" type="Sprite2D" parent="Menu/settings"]
+self_modulate = Color(1, 1, 1, 0.423529)
+
+[node name="video_setting_bg" type="Sprite2D" parent="Menu/settings/video_settings"]
+self_modulate = Color(1, 1, 1, 0.482353)
+position = Vector2(1300, 700)
+scale = Vector2(0.25, 0.5)
+texture = ExtResource("3_jrcb4")
+
+[node name="full_screen" type="CheckButton" parent="Menu/settings/video_settings"]
+offset_left = 1100.0
+offset_top = 400.0
+offset_right = 1500.0
+offset_bottom = 457.0
+theme_override_font_sizes/font_size = 35
+button_pressed = true
+text = "Full screen"
+
+[node name="resolution" type="OptionButton" parent="Menu/settings/video_settings"]
+offset_left = 1100.0
+offset_top = 500.0
+offset_right = 1500.0
+offset_bottom = 557.0
+theme_override_fonts/font = ExtResource("4_jrcb4")
+theme_override_font_sizes/font_size = 30
+disabled = true
+item_count = 3
+popup/item_0/text = "2560 x 1440"
+popup/item_0/id = 0
+popup/item_1/text = "1920 x 1080"
+popup/item_1/id = 1
+popup/item_2/text = "1280 x 720"
+popup/item_2/id = 2
+
+[node name="main_menu" type="Sprite2D" parent="Menu"]
+
+[node name="resume" type="Button" parent="Menu/main_menu"]
+offset_left = 300.0
+offset_top = 700.0
+offset_right = 400.0
+offset_bottom = 750.0
+text = "resume"
+
+[node name="save_game" type="Button" parent="Menu/main_menu"]
 visible = false
-position = Vector2(129, 72)
-scale = Vector2(0.125466, 0.124103)
-texture = ExtResource("3_dbu0r")
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="load_game" type="Button" parent="Menu/main_menu"]
+visible = false
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="settings_open" type="Button" parent="Menu/main_menu"]
+offset_left = 300.0
+offset_top = 800.0
+offset_right = 400.0
+offset_bottom = 850.0
+text = "settings"
+
+[node name="quit" type="Button" parent="Menu/main_menu"]
+offset_left = 300.0
+offset_top = 900.0
+offset_right = 400.0
+offset_bottom = 950.0
+text = "Quit"
 
 [node name="ui" type="CanvasLayer" parent="."]
 
@@ -453,7 +543,8 @@ theme_override_font_sizes/font_size = 25
 text = "info"
 
 [node name="Time" type="Sprite2D" parent="ui"]
-position = Vector2(1.8, 0.2)
+position = Vector2(1220.4, 60.5)
+scale = Vector2(1e-05, 1e-05)
 texture = ExtResource("5_b3mxb")
 
 [node name="Multiplier" type="Sprite2D" parent="ui/Time"]
@@ -497,6 +588,17 @@ theme_override_fonts/font = ExtResource("4_jrcb4")
 theme_override_font_sizes/font_size = 16
 text = "20.4.753 B.C"
 
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(145, 127)
+position_smoothing_enabled = true
+script = ExtResource("2_fhlij")
+
+[node name="Rome" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(129, 72)
+scale = Vector2(0.125466, 0.124103)
+texture = ExtResource("3_dbu0r")
+
 [node name="Icon" type="Sprite2D" parent="."]
 position = Vector2(115, 12.5)
 scale = Vector2(0.0254453, 0.021121)
@@ -516,3 +618,11 @@ z_index = -2
 position = Vector2(88, 48)
 scale = Vector2(4.85417, 2.97326)
 texture = ExtResource("11_0odt2")
+
+[connection signal="button_down" from="Menu/settings/b_video_settings" to="Menu" method="video_settings_open"]
+[connection signal="button_down" from="Menu/settings/back" to="Menu" method="back_button"]
+[connection signal="toggled" from="Menu/settings/video_settings/full_screen" to="Menu" method="full_screen"]
+[connection signal="item_selected" from="Menu/settings/video_settings/resolution" to="Menu" method="resolution"]
+[connection signal="button_down" from="Menu/main_menu/resume" to="Menu" method="resume_button"]
+[connection signal="button_down" from="Menu/main_menu/settings_open" to="Menu" method="settings_open_button"]
+[connection signal="button_down" from="Menu/main_menu/quit" to="Menu" method="quit_button"]

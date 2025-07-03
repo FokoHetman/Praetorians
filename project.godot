@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Tests"
+config/name="Praetorians"
 run/main_scene="res://Map.tscn"
 config/features=PackedStringArray("4.4")
 config/icon="res://textures/icon.png"
