@@ -1,8 +1,8 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1745429569
+::res://::1745429714
 DaysOne.ttf::FontFile::244521685909876470::1744989229::1744989333::1::::<><>::
-default_env.tres::Environment::487507342623457675::1745429544::0::1::::<><>::
-Menu.tscn::PackedScene::4980138086918256490::1745429544::0::1::::<><>::res://scripts/Menu.gd<>res://scripts/Camera2D.gd<>uid://cx2ss66jqv506::::res://textures/tablica_temp.png<>uid://scatb08b3wo7::::res://textures/rome.png<>uid://dqpibld1vkda::::res://DaysOne.ttf<>uid://cowjwtl3y4iv1::::res://textures/icon.png<>uid://yv1htub45aup::::res://textures/tablica/roman_1.png<>uid://doq55a52a1gfc::::res://textures/gamebackground.png<>res://scripts/button/plus_button.gd<>res://scripts/button/minus_button.gd<>uid://cqdq83biruyv1::::res://textures/desk.png<>res://scripts/button/stop.gd
+default_env.tres::Environment::487507342623457675::1745429640::0::1::::<><>::
+Menu.tscn::PackedScene::4980138086918256490::1745429640::0::1::::<><>::res://scripts/Menu.gd<>res://scripts/Camera2D.gd<>uid://scatb08b3wo7::::res://textures/rome.png<>uid://dqpibld1vkda::::res://DaysOne.ttf<>uid://cowjwtl3y4iv1::::res://textures/icon.png<>uid://yv1htub45aup::::res://textures/tablica/roman_1.png<>uid://doq55a52a1gfc::::res://textures/gamebackground.png<>res://scripts/button/plus_button.gd<>res://scripts/button/minus_button.gd<>uid://cqdq83biruyv1::::res://textures/desk.png<>res://scripts/button/stop.gd
 ::res://scripts/::1745429249
 Camera2D.gd::GDScript::-1::1744989230::0::1::::<>Camera2D<>::
 Country.gd::GDScript::-1::1745429249::0::1::::<>Node<>::

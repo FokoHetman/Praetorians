@@ -170,6 +170,12 @@ func define_countries():
 
 
 func _input(event) -> void:
+	if Input.is_action_just_pressed("ui_cancel"):
+		if $Menu.visible:
+			$Menu.restart()
+		else:
+			$Menu.show()
+	
 	if event is InputEventMouseMotion:
 		#print("hover")
 		reset_hover()
