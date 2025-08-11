@@ -7,12 +7,13 @@ extends Area2D
 var font
 var fparent
 
+var commons = load("res://scripts/commons.gd")
 
 func _init(parent=null):
 	fparent = parent
 
 func double_click():
-	print(">=DOUBLE CLICKED!!!!")
+	get_node("/root/Map").toggleView(commons.VIEWS.PROVINCE, fparent)
 	# TODO:  move to Province view
 
 func _input_event(viewport, event, shape_idx):

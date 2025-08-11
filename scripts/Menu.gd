@@ -21,6 +21,18 @@ var time = load("res://scripts/GameTime.gd").new(-753,110,0)
 
 var commons = load("res://scripts/commons.gd")
 
+var view
+
+func toggleView(view, province=null):
+	view = view
+	match view:
+		commons.VIEWS.PROVINCE:
+			pass
+		commons.VIEWS.MAP:
+			toggleMap()
+	pass
+
+
 func draw_state(state):
 	var last_line = state.position
 	for line in state.curves:
@@ -44,6 +56,8 @@ func disintegrate(pos):
 func _ready():
 	time.name = 'GameTime'
 	add_child(time)
+	toggleView(commons.VIEWS.MAP)
+func toggleMap():
 	$ui/Time.position.x = get_viewport().size.x - 0.1*get_viewport().size.x
 	$ui/Time.position.y = get_viewport().size.y - 0.9*get_viewport().size.y
 	$ui/Time.scale.x = get_viewport().size.x / 1920 * $ui/Time.scale.x

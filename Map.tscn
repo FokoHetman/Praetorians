@@ -454,6 +454,7 @@ text = "info"
 
 [node name="Time" type="Sprite2D" parent="ui"]
 position = Vector2(1.8, 0.2)
+scale = Vector2(1e-05, 1e-05)
 texture = ExtResource("5_b3mxb")
 
 [node name="Multiplier" type="Sprite2D" parent="ui/Time"]
