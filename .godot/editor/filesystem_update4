@@ -1,7 +1,0 @@
-res://default_env.tres
-res://Map.tscn
-res://scripts/button/plus_button.gd
-res://scripts/Menu.gd
-res://scripts/state_area.gd
-res://scripts/Camera2D.gd
-res://scripts/menu_settings.gd

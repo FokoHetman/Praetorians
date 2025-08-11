@@ -6,3 +6,5 @@ const select_color = Color(1, 1, 1, 0.8)
 
 
 enum TYPES {FOREST, DESERT, PLAINS, MOUNTAINS}
+
+enum VIEWS {MAP,PROVINCE}
