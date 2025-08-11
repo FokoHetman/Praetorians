@@ -25,7 +25,7 @@ var cities_max
 var hovered
 var selected
 
-func _init(id="unspecified", position=Vector2.ZERO, curves=[], type = commons.TYPES.FOREST, population=0, man_power=0, cities_number=0, cities_max=0):
+func _init(id=0, position=Vector2.ZERO, curves=[], type = commons.TYPES.FOREST, population=0, man_power=0, cities_number=0, cities_max=0):
 	self.id = id
 	self.position = position
 	self.curves = curves
@@ -41,20 +41,21 @@ func _init(id="unspecified", position=Vector2.ZERO, curves=[], type = commons.TY
 	
 
 func display_type():
+	var h = "PROVINCE_TYPE."
 	match self.type:
 		commons.TYPES.FOREST:
-			return "Forest"
+			return tr(h+"FOREST")
 		commons.TYPES.PLAINS:
-			return "Plains"
+			return tr(h+"PLAINS")
 		commons.TYPES.DESERT:
-			return "Desert"
+			return tr(h+"DESERT")
 		commons.TYPES.MOUNTAINS:
-			return "Mountains"
+			return tr(h+"MOUNTAINS")
 		_:
-			return "Stalinium (error)"
+			return tr(h+"ERROR")
 
 func getID():
-	return self.id
+	return tr("PROVINCE." + str(self.id))
 
 func gen_poly() -> CollisionPolygon2D:
 	self.poly.set_polygon(PackedVector2Array(utils.correctify(self.position,curves)))

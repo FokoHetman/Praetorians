@@ -14,7 +14,6 @@ func _init(parent=null):
 
 func double_click():
 	get_node("/root/Map").toggleView(commons.VIEWS.PROVINCE, fparent)
-	# TODO:  move to Province view
 
 func _input_event(viewport, event, shape_idx):
 	if not get_node("/root/Map/Menu").visible:
@@ -27,13 +26,15 @@ func _input_event(viewport, event, shape_idx):
 		if (event is InputEventMouseButton && event.pressed):
 			if event.button_index == MOUSE_BUTTON_LEFT:
 				#open state info
-				get_node("/root/Map/ui/state_info_ui/font-resize/state_name").text = fparent.id
+				get_node("/root/Map/ui/state_info_ui/font-resize/state_name").text = fparent.getID()
 				get_node("/root/Map/ui/state_info_ui/font-resize/state_info").text = 'Type: '+ fparent.display_type() +'\nPopulation: '+ str(fparent.population)+ '\nMan power: '+ str(fparent.man_power) +'\nCities number: '+ str(fparent.cities_number)
 				get_node("/root/Map/ui/country_info_ui").hide()
-				get_node("/root/Map/ui/state_info_ui").show()
 				if fparent.selected:
+					get_node("/root/Map").reset_selection()
 					double_click()
+					return
 				get_node("/root/Map").reset_selection()
+				get_node("/root/Map/ui/state_info_ui").show()
 				fparent.selected = true
 				get_node("/root/Map").redraw_focus()
 			elif event.button_index == MOUSE_BUTTON_RIGHT:
