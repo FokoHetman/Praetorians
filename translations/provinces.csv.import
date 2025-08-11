@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dc30fx61jq6ss"
+
+[deps]
+
+files=["res://translations/provinces.en.translation", "res://translations/provinces.pl.translation"]
+
+source_file="res://translations/provinces.csv"
+dest_files=["res://translations/provinces.en.translation", "res://translations/provinces.pl.translation"]
+
+[params]
+
+compress=true
+delimiter=0
