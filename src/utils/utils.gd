@@ -27,7 +27,16 @@ func create_state(id, pos, curves):
 	cstate.curves = curves
 	return cstate
 
+func get_center(curves):
+	var X = 0
+	var Y = 0
+	var current = Vector2(0,0)
+	for i in curves:
+		current += i
+		X += current.x
+		Y += current.y
+	return Vector2(X / len(curves), Y/len(curves))
+
+
 func _ready():
 	pass 
-
-

@@ -23,22 +23,41 @@ var commons = load("res://src/utils/commons.gd")
 
 var view
 
+var savedCameraPos
+var savedCameraZoom
+var defaultCameraPosition
 func toggleView(viewc, province=null):
 	# TODO: disable UI, make the province view.
+	if view == commons.VIEWS.MAP:
+		savedCameraPos = $Camera2D.position
+		savedCameraZoom = $Camera2D.zoom
 	view = viewc
 	match view:
 		commons.VIEWS.PROVINCE:
+			$Camera2D.position = defaultCameraPosition
+			$Camera2D.zoom = Vector2(1,1)
+			toggleUI()
 			spawnProvinceView(province)
+			queue_redraw()
+			$States.visible = false
 			pass
 		commons.VIEWS.MAP:
+			$Camera2D.position = savedCameraPos
+			$Camera2D.zoom = savedCameraZoom
+			toggleUI()
 			toggleMap()
 	pass
+
+
+func toggleUI():
+	$ui.visible = not $ui.visible
 
 
 var province_view = preload("res://scenes/Province.tscn").instantiate()
 func spawnProvinceView(province):
 	province_view.province = province
 	add_child(province_view)
+	province_view.redraw()
 	#get_tree().change_scene_to_packed(province_view)
 
 func draw_state(state):
@@ -51,32 +70,41 @@ func draw_state(state):
 	print("Drawn: ", state.id)
 
 func _draw() -> void:
+	match view:
+		commons.VIEWS.MAP:
+			draw_line(Vector2.ZERO, Vector2.DOWN*300, Color.AQUA, 0)
 	
-	draw_line(Vector2.ZERO, Vector2.DOWN*300, Color.AQUA, 0)
-	
-	draw_string(font, Vector2.ZERO+Vector2.DOWN*30+Vector2.LEFT*50, 'Ave Caesar!')
-	print("Drawing states...")
-	for state in states:
-		draw_state(state)
+			draw_string(font, Vector2.ZERO+Vector2.DOWN*30+Vector2.LEFT*50, 'Ave Caesar!')
+			print("Drawing states...")
+			for state in states:
+				draw_state(state)
+
 
 func disintegrate(pos):
 	return pos + Vector2((randi()% 20-2)*10, (randi()% 20-2)*10)
 
 func _ready():
+	savedCameraPos = $Camera2D.position
+	defaultCameraPosition = savedCameraPos
+	savedCameraZoom = $Camera2D.zoom
+	toggleUI()
 	var preferred_language = OS.get_locale_language()
 	TranslationServer.set_locale(preferred_language)
 
 	time.name = 'GameTime'
 	add_child(time)
 	toggleView(commons.VIEWS.MAP)
-func toggleMap():
+	define_states()
+	define_countries()
+func toggleMap(): # not actually a toggle
 	$ui/Time.position.x = get_viewport().size.x - 0.1*get_viewport().size.x
 	$ui/Time.position.y = get_viewport().size.y - 0.9*get_viewport().size.y
 	$ui/Time.scale.x = get_viewport().size.x / 1920 * $ui/Time.scale.x
 	$ui/Time.scale.y = get_viewport().size.y / 1080 * $ui/Time.scale.y
 	
-	define_states()
-	define_countries()
+	$States.visible = true
+	queue_redraw()
+
 
 
 func define_states():
@@ -172,7 +200,7 @@ func define_states():
 	print("Initializing states:")
 	for state in states:
 		print(state.id)
-		add_child(state.gen_area())
+		$States.add_child(state.gen_area())
 	font = commons.font()
 	#update() # Replace with function body.
 
