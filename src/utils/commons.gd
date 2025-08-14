@@ -11,3 +11,10 @@ func font() -> FontFile:
 enum TYPES {FOREST, DESERT, PLAINS, MOUNTAINS}
 
 enum VIEWS {MAP,PROVINCE}
+
+#<<<<<DISCUSSION
+# TODO: explain purpose of each type
+# unsure about FORTRESS belonging
+enum SETTLEMENT_TYPE {CITY,VILLAGE,CAMP,FORTRESS}
+enum BUILDING_TYPE {BLACKSMITH, PORT} 
+#>>>>>>

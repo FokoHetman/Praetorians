@@ -26,7 +26,7 @@ var mode = commons.VIEWS.MAP
 func _process(delta):
 	update_lims()
 	match get_node("/root/Map").view:
-		commons.VIEWS.MAP:
+		commons.VIEWS.MAP , commons.VIEWS.PROVINCE:
 			if get_node("/root/Map/Menu").visible:
 				return 
 			var move_speed = d_speed / zoom.x * delta * 100
@@ -47,7 +47,7 @@ func _process(delta):
 
 func _input(event):
 	match get_node("/root/Map").view:
-		commons.VIEWS.MAP:
+		commons.VIEWS.MAP , commons.VIEWS.PROVINCE:
 			if not get_node("/root/Map/Menu").visible:
 				if event is InputEventMouseButton:
 					if event.is_pressed():

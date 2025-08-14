@@ -16,16 +16,17 @@ var poly
 var color_obj
 
 var type
+
+var settlements
+var buildings
+
 var population
-var man_power
-var cities_number
-var cities_max
 
 
 var hovered
 var selected
 
-func _init(id=0, position=Vector2.ZERO, curves=[], type = commons.TYPES.FOREST, population=0, man_power=0, cities_number=0, cities_max=0):
+func _init(id=0, position=Vector2.ZERO, curves=[], type = commons.TYPES.FOREST, settlements = [], buildings = [], starting_population=0):
 	self.id = id
 	self.position = position
 	self.curves = curves
@@ -34,11 +35,10 @@ func _init(id=0, position=Vector2.ZERO, curves=[], type = commons.TYPES.FOREST, 
 	self.color_obj = Polygon2D.new()
 	
 	self.type = type
-	self.population = population
-	self.man_power = man_power
-	self.cities_number = cities_number
-	self.cities_max = cities_max
 	
+	self.population = starting_population
+	self.settlements = settlements
+	self.buildings = buildings
 
 func display_type():
 	var h = "PROVINCE_TYPE."

@@ -38,5 +38,18 @@ func get_center(curves):
 	return Vector2(X / len(curves), Y/len(curves))
 
 
+func map(fun, list):
+	var nlist = []
+	for i in list:
+		nlist.append(fun.call(i))
+	return nlist
+
+func sum(list):
+	var summed = 0
+	for i in list:
+		summed += i
+	return summed
+
+
 func _ready():
 	pass 
