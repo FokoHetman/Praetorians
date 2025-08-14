@@ -11,3 +11,5 @@ func font() -> FontFile:
 enum TYPES {FOREST, DESERT, PLAINS, MOUNTAINS}
 
 enum VIEWS {MAP,PROVINCE}
+
+enum ARMY_TYPES {LEGION, LEVY}

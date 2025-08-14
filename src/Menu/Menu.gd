@@ -204,8 +204,18 @@ func define_states():
 	font = commons.font()
 	#update() # Replace with function body.
 
+func state_from_id(id: int):
+	for i in states:
+		if i.id == id:
+			return i
 func define_countries():
-	var rome = country_supplier.new("Rome",[1,2,3,4,5,6,7,8,9,10])
+	var rome = Country.new("Rome", [state_from_id(7)], [Faction.new("consul_loyalists")])
+	
+	var romulus_family = Family.new("Mars")
+	var king = Character.new("Romulus", "", romulus_family, [])
+	
+	rome.states[0].governor = king
+	rome.create_legion(rome.states[0], rome.factions[0])
 	countries.append(rome)
 
 

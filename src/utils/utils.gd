@@ -37,6 +37,13 @@ func get_center(curves):
 		Y += current.y
 	return Vector2(X / len(curves), Y/len(curves))
 
+func take(num, list):
+	var new_list = []
+	for i in range(0,num):
+		new_list.append(list[i])
+	return new_list
+
+
 
 func _ready():
 	pass 

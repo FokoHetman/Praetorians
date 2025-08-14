@@ -27,7 +27,7 @@ func _input_event(viewport, event, shape_idx):
 			if event.button_index == MOUSE_BUTTON_LEFT:
 				#open state info
 				get_node("/root/Map/ui/state_info_ui/font-resize/state_name").text = fparent.getID()
-				get_node("/root/Map/ui/state_info_ui/font-resize/state_info").text = 'Type: '+ fparent.display_type() +'\nPopulation: '+ str(fparent.population)+ '\nMan power: '+ str(fparent.man_power) +'\nCities number: '+ str(fparent.cities_number)
+				get_node("/root/Map/ui/state_info_ui/font-resize/state_info").text = fparent.description()
 				get_node("/root/Map/ui/country_info_ui").hide()
 				if fparent.selected:
 					get_node("/root/Map").reset_selection()

@@ -21,6 +21,7 @@ var man_power
 var cities_number
 var cities_max
 
+var governor
 
 var hovered
 var selected
@@ -54,9 +55,17 @@ func display_type():
 		_:
 			return tr(h+"ERROR")
 
-func getID():
+func getID() -> String:
 	return tr("PROVINCE." + str(self.id))
-
+func description() -> String:
+	var result = ""
+	result += 'Type: '+ display_type() 
+	result += '\nPopulation: '+ str(population)
+	if governor:
+		result += '\nGovernor: ' + governor.display()
+	else:
+		result += "\nUngoverned"
+	return result
 func gen_poly() -> CollisionPolygon2D:
 	self.poly.set_polygon(PackedVector2Array(utils.correctify(self.position,curves)))
 	
