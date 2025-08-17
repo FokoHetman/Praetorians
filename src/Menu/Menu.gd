@@ -209,15 +209,20 @@ func state_from_id(id: int):
 		if i.id == id:
 			return i
 func define_countries():
-	var rome = Country.new("Rome", [state_from_id(7)], [Faction.new("consul_loyalists")])
-	
-	var romulus_family = Family.new("Mars")
-	var king = Character.new("Romulus", "", romulus_family, [])
-	
-	rome.states[0].governor = king
-	rome.create_legion(rome.states[0], rome.factions[0])
-	countries.append(rome)
+	var loyalists = Faction.new(1, [])
 
+	var romulus_family = Family.new("Mars")
+	var king = Character.new("Romulus", "", romulus_family, [], 1)
+
+	var rome = Country.new(1, king, [state_from_id(7)], [loyalists])
+
+
+	rome.states[0].governor = king
+	rome.create_legion(rome.states[0], rome.factions[0], 
+		[Cohort.new(commons.COHORT_TYPES.INFANTRY), Cohort.new(commons.COHORT_TYPES.INFANTRY), Cohort.new(commons.COHORT_TYPES.ARCHERS), Cohort.new(commons.COHORT_TYPES.ARCHERS)])
+	countries.append(rome)
+	redraw_gametime()
+	#utils.get_stance(loyalists, loyalists)
 
 func _input(event) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
@@ -247,6 +252,26 @@ func redraw_focus():
 			state.area.get_children()[1].color = commons.default_state_color
 
 
+
+### WHO IS  THE PLAYER?
+# for now - player is handled as the chosen country's ruler.
+
+
+
+# redraw based on things such as legion positions etc
+func redraw_gametime():
+	pass
+	for country in countries:
+		for army in country.armies:
+			var box_pos = army.state.position + utils.get_center(army.state.curves) # TODO: offset not by center, but by accurate position of the army
+			var object = army.display_object(countries[0].ruler) # rome's ruler
+			object.position = box_pos
+			$States.add_child(object)
+			print(object)
+			
+
+
+# this is dumb.
 func _process(delta):
 	if time:
 		$ui/Time/Date.text = time.format()

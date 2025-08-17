@@ -1,10 +1,8 @@
 @tool
 extends Node
 
+var commons = load("res://src/utils/commons.gd")
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
 
 func correctify(position, arr) -> Array:
 	var last_val = position
@@ -43,6 +41,29 @@ func take(num, list):
 		new_list.append(list[i])
 	return new_list
 
+func intersect(l1, l2):
+	var l3 = []
+	for i in l1:
+		if i in l2:
+			l3.append(i)
+	return l3
+
+
+# If the character controlling leaves the country (joins another country) - army stays, the character stops controlling the army.
+# If the character is in a revolting faction, the army follows him.
+# Considering the above rules, stance is calculated from character's faction wars + the country's wars.
+# [NEUTRAL, AGRESSIVE, ALLIED]
+func get_stance(army1, army2):
+	if army1.country == army2.country:
+		# check if their leaders are fighting against themselves in a civil war
+		for i in army2.leader.factions:
+			if len(intersect(army1.leader.factions, i.wars))>0:
+				return commons.STANCE.AGGRESSIVE
+		return commons.STANCE.ALLIED
+	else:
+		if army2.country in army1.country.wars:
+			return commons.STANCE.AGGRESSIVE
+	return commons.STANCE.NEUTRAL
 
 
 func _ready():

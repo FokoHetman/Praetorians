@@ -30,7 +30,7 @@ common/drop_mouse_on_gui_input_disabled=true
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://translations/provinces.en.translation", "res://translations/provinces.pl.translation", "res://translations/strings.en.translation", "res://translations/strings.pl.translation")
+locale/translations=PackedStringArray("res://translations/provinces.en.translation", "res://translations/provinces.pl.translation", "res://translations/strings.en.translation", "res://translations/strings.pl.translation", "res://translations/factions.en.translation", "res://translations/factions.pl.translation")
 
 [physics]
 

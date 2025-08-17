@@ -3,12 +3,10 @@ class_name Faction
 
 var id
 var countries
-var armies
 
-func _init(id="unspecified",armies=[]):
+func _init(id=0,countries=[]):
 	self.id = id
-	self.armies = armies
-
+	self.countries = countries
 
 func getID():
-	return self.id
+	return tr("FACTION."+str(self.id))

@@ -13,3 +13,9 @@ enum TYPES {FOREST, DESERT, PLAINS, MOUNTAINS}
 enum VIEWS {MAP,PROVINCE}
 
 enum ARMY_TYPES {LEGION, LEVY}
+
+enum COHORT_TYPES {ARCHERS,INFANTRY,CAVALRY}
+
+enum STANCE {AGGRESSIVE, NEUTRAL, ALLIED}
+
+const rounded_square = [Vector2(2,0), Vector2(18,0), Vector2(20, 2), Vector2(20, 8), Vector2(18, 10), Vector2(2, 10), Vector2(0, 8), Vector2(0,2)]
