@@ -132,7 +132,7 @@ func define_states():
 	var basilicata = state_supplier.new(3, Vector2.ZERO + 180*Vector2.RIGHT + 80*Vector2.DOWN, [Vector2.UP*5+Vector2.RIGHT*3, Vector2.LEFT+Vector2.UP, Vector2.UP+2*Vector2.LEFT, Vector2.UP+Vector2.RIGHT, Vector2.UP*4+Vector2.LEFT, Vector2.LEFT*2, Vector2.LEFT+Vector2.DOWN, Vector2.LEFT*3+Vector2.UP*2, Vector2.UP*2+Vector2.LEFT, Vector2.LEFT*2, Vector2.LEFT+Vector2.UP, Vector2.UP+Vector2.RIGHT/2, Vector2.LEFT*3+Vector2.UP*2.5, Vector2.LEFT+Vector2.DOWN, Vector2.LEFT*3.5,
 		Vector2.DOWN*2+Vector2.RIGHT, Vector2.DOWN*2+Vector2.LEFT*2, Vector2.LEFT*1.5, Vector2.DOWN*2, Vector2.DOWN*2.5+Vector2.RIGHT*1.5, Vector2.DOWN, Vector2.RIGHT+Vector2.DOWN, Vector2.DOWN*0.5, Vector2.DOWN*5+Vector2.RIGHT*4, Vector2.DOWN*4+Vector2.LEFT*3, Vector2.DOWN*2+Vector2.RIGHT*2,
 		 Vector2.UP*0.5,
-		 Vector2.RIGHT+Vector2.UP, Vector2.RIGHT*2, Vector2.RIGHT*3+Vector2.DOWN*2, Vector2.UP+Vector2.RIGHT*2, Vector2.RIGHT+Vector2.DOWN, Vector2.UP*3+Vector2.RIGHT, Vector2.UP*2+Vector2.RIGHT*2, Vector2.RIGHT*3+Vector2.DOWN
+		 Vector2.RIGHT+Vector2.UP, Vector2.RIGHT*2, Vector2.RIGHT*3+Vector2.DOWN*2, Vector2.UP+Vector2.RIGHT*2, Vector2.RIGHT+Vector2.DOWN, Vector2.UP*3+Vector2.RIGHT
 		])
 	states.append(basilicata)
 
@@ -219,7 +219,7 @@ func define_countries():
 
 	rome.states[0].governor = king
 	rome.create_legion(rome.states[0], rome.factions[0], 
-		[Cohort.new(commons.COHORT_TYPES.INFANTRY), Cohort.new(commons.COHORT_TYPES.INFANTRY), Cohort.new(commons.COHORT_TYPES.ARCHERS), Cohort.new(commons.COHORT_TYPES.ARCHERS)])
+		[Cohort.new(commons.COHORT_TYPES.INFANTRY, Vector2(10, 10)), Cohort.new(commons.COHORT_TYPES.INFANTRY, Vector2(-10, 10)), Cohort.new(commons.COHORT_TYPES.ARCHERS, Vector2(10, -10)), Cohort.new(commons.COHORT_TYPES.ARCHERS, Vector2(-10, -10))])
 	countries.append(rome)
 	redraw_gametime()
 	#utils.get_stance(loyalists, loyalists)
@@ -263,7 +263,7 @@ func redraw_gametime():
 	pass
 	for country in countries:
 		for army in country.armies:
-			var box_pos = army.state.position + utils.get_center(army.state.curves) # TODO: offset not by center, but by accurate position of the army
+			var box_pos = army.state.position + army.position # DONE: offset not by center, but by accurate position of the army
 			var object = army.display_object(countries[0].ruler) # rome's ruler
 			object.position = box_pos
 			$States.add_child(object)

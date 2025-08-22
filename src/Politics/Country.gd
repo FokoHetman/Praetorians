@@ -35,7 +35,7 @@ func add_character(character: Character):
 # loyalty: Faction the legion is loyal to. Usually it's the country/province's leader
 # composition: List of Cohorts within the legion
 func create_legion(state: State, loyalty: Faction = null, composition = []):
-	var new_legion = Army.new(commons.ARMY_TYPES.LEGION, composition, self.id)
+	var new_legion = Army.new(commons.ARMY_TYPES.LEGION, composition, self.id, Vector2(0,0))
 	new_legion.assign(state)
 	if loyalty:
 		new_legion.loyalty = loyalty

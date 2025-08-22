@@ -17,9 +17,14 @@ var loyalty # loyalty. TODO: counted over the leader's loyalty
 
 var composition
 
-func _init(type, composition, country):
+func _init(type, composition, country, position):
 	self.country = country
-	self.composition = composition
+	var composition2 =  composition
+	for i in composition:
+		i.parent = self
+	self.composition = composition2
+	self.position = position
+	self.kind = type
 
 func assign(state: State):
 	self.leader = state.governor
