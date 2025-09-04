@@ -7,6 +7,9 @@ var type
 
 var parent
 
+var rows = 20
+var columns = 25
+
 var position # relative to legion's root
 
 func _init(type, position):

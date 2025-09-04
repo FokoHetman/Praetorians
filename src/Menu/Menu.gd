@@ -219,7 +219,8 @@ func define_countries():
 
 	rome.states[0].governor = king
 	rome.create_legion(rome.states[0], rome.factions[0], 
-		[Cohort.new(commons.COHORT_TYPES.INFANTRY, Vector2(10, 10)), Cohort.new(commons.COHORT_TYPES.INFANTRY, Vector2(-10, 10)), Cohort.new(commons.COHORT_TYPES.ARCHERS, Vector2(10, -10)), Cohort.new(commons.COHORT_TYPES.ARCHERS, Vector2(-10, -10))])
+		[Cohort.new(commons.COHORT_TYPES.INFANTRY, Vector2(10, 10)), Cohort.new(commons.COHORT_TYPES.INFANTRY, Vector2(-10, 10)), 
+		 Cohort.new(commons.COHORT_TYPES.ARCHERS, Vector2(10, -10)), Cohort.new(commons.COHORT_TYPES.ARCHERS, Vector2(-10, -10))])
 	countries.append(rome)
 	redraw_gametime()
 	#utils.get_stance(loyalists, loyalists)
@@ -261,6 +262,7 @@ func redraw_focus():
 # redraw based on things such as legion positions etc
 func redraw_gametime():
 	pass
+	
 	for country in countries:
 		for army in country.armies:
 			var box_pos = army.state.position + army.position # DONE: offset not by center, but by accurate position of the army

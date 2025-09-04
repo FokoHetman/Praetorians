@@ -44,22 +44,55 @@ func toMap():
 	get_parent().toggleView(commons.VIEWS.MAP)
 	get_parent().remove_child(self)
 
-func redraw_gametime():
+enum DISPLAYED {ARMIES, COHORTS, UNITS}
+var current = null
+
+func clear():
 	for i in $Armies.get_children():
 		$Armies.remove_child(i)
+
+func redraw_gametime():
 	var center = utils.get_center(province.curves)
 	var default_pos = Vector2(-center.x, -center.y) * mult
 	var czoom = get_parent().get_node("Camera2D").zoom
 	if czoom.x<1.5:
-		for country in get_parent().countries:
-			for army in country.armies:
-				if army.state.id == province.id:
-					var box_pos = default_pos + army.position * mult
-					var object = army.display_object(get_parent().countries[0].ruler)
-					object.scale = Vector2(5,5)
-					object.position = box_pos
-					$Armies.add_child(object)
+		if current != DISPLAYED.ARMIES:
+			current = DISPLAYED.ARMIES
+			clear()
+			for country in get_parent().countries:
+				for army in country.armies:
+					if army.state.id == province.id:
+						var box_pos = default_pos + army.position * mult
+						var object = army.display_object(get_parent().countries[0].ruler)
+						object.scale = Vector2(5,5)
+						object.position = box_pos
+						$Armies.add_child(object)
 	elif czoom.x<4.5:
+		if current != DISPLAYED.COHORTS:
+			current = DISPLAYED.COHORTS
+			clear()
+			for country in get_parent().countries:
+				for army in country.armies:
+					if army.state.id == province.id:
+						print("<4:", army.kind)
+						match army.kind:
+							commons.ARMY_TYPES.LEGION:
+								#display cohorts
+								print("DRAWING COHORTS")
+								for cohort in army.composition:
+									print("DRAWING COHORT:", cohort)
+									var box_pos = default_pos + army.position * mult + cohort.position * mult/10
+									var object = cohort.display_object(get_parent().countries[0].ruler)
+									object.scale = Vector2(2,2)
+									object.position = box_pos
+									$Armies.add_child(object)
+							commons.ARMY_TYPES.LEVY:
+								print("its a levy")
+								#display levies (a single big cohort type thing)
+								pass
+	elif current != DISPLAYED.UNITS:
+		current = DISPLAYED.UNITS
+		clear()
 		for country in get_parent().countries:
 			for army in country.armies:
 				if army.state.id == province.id:
@@ -69,16 +102,17 @@ func redraw_gametime():
 							#display cohorts
 							print("DRAWING COHORTS")
 							for cohort in army.composition:
-								print("DRAWING COHORT:", cohort)
-								var box_pos = default_pos + army.position * mult + cohort.position * mult/10
-								var object = cohort.display_object(get_parent().countries[0].ruler)
-								object.scale = Vector2(2,2)
-								object.position = box_pos
-								$Armies.add_child(object)
+								for y in range(cohort.rows):
+									for x in range(cohort.columns):
+										print("DRAWING ", x, "x", y, " UNIT")
+										var box_pos = default_pos + army.position * mult + cohort.position * mult/10 + (Vector2(x, y) - Vector2(7,7)) * mult/20
+										var object = cohort.display_object(get_parent().countries[0].ruler)
+										object.scale = Vector2(0.08, 0.08)
+										object.position = box_pos
+										$Armies.add_child(object)
 						commons.ARMY_TYPES.LEVY:
 							print("its a levy")
 							#display levies (a single big cohort type thing)
 							pass
-	else:
 		# display soldiers
 		pass

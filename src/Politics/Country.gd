@@ -21,7 +21,7 @@ func _init(id,ruler,states=[], factions=[], characters=[], wars=[], armies=[]):
 	self.characters = characters
 	self.wars = wars
 	self.armies = armies
-	
+
 	self.ruler = ruler
 	
 
