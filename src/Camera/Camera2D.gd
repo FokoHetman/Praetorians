@@ -23,6 +23,8 @@ var bg_size = null
 
 var mode = commons.VIEWS.MAP
 
+var border_size = 25
+
 func _process(delta):
 	update_lims()
 	match get_node("/root/Map").view:
@@ -31,10 +33,18 @@ func _process(delta):
 				return 
 			var move_speed = d_speed / zoom.x * delta * 100
 			var viewPortMousePos = get_viewport().get_mouse_position()
+			var viewport = get_viewport()
+			#if not dead_zone.has_point(viewPortMousePos):
+			if moving_scroll[0]:
+				#var away = viewPortMousePos - moving_scroll[1]
+				position = position.move_toward(moving_scroll[1] - viewPortMousePos, move_speed*10)
+				return
+			if viewPortMousePos.x > viewport.size.x - border_size or viewPortMousePos.x < border_size:
+				position = position.move_toward(Vector2((-get_viewport().size/2)) + (viewPortMousePos), move_speed)	
+			if viewPortMousePos.y > viewport.size.y - border_size or viewPortMousePos.y < border_size:
+				position = position.move_toward(Vector2(-get_viewport().size/2) + (viewPortMousePos), move_speed)	
 			
-			if not dead_zone.has_point(viewPortMousePos):
-				position = position.move_toward(Vector2((-get_viewport().size/2).x, (-get_viewport().size/2).y) + (viewPortMousePos), move_speed)	
-			acceleration= clamp(acceleration, -max_acc, max_acc)
+			acceleration = clamp(acceleration, -max_acc, max_acc)
 
 			if acceleration>0:
 				acceleration = clamp(acceleration - slowness*delta, -max_acc, acceleration)
@@ -44,6 +54,8 @@ func _process(delta):
 				acceleration=0
 			zoom = Vector2(clamp(zoom.x-acceleration*speed, min_zoom, max_zoom), clamp(zoom.y-acceleration*speed, min_zoom, max_zoom))
 
+### this indicates whether user is using scroll to move the map, also gives starting position of the movement.
+var moving_scroll = [false, Vector2(0,0)]
 
 func _input(event):
 	match get_node("/root/Map").view:
@@ -55,7 +67,10 @@ func _input(event):
 							acceleration-=0.1
 						if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 							acceleration+=0.1
-
+						if event.button_index == MOUSE_BUTTON_MIDDLE:
+							moving_scroll = [true, event.position]
+					if event.is_released() and event.button_index == MOUSE_BUTTON_MIDDLE:
+						moving_scroll = [false, Vector2(0,0)]
 var bg
 func _ready():
 	bg = get_node("/root/Map/Background")
