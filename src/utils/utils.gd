@@ -27,6 +27,12 @@ func create_state(id, pos, curves):
 	cstate.curves = curves
 	return cstate
 
+func roof(x):
+	if x > round(x):
+		return round(x)+1
+	else:
+		return round(x)
+
 func get_center(curves):
 	var X = 0
 	var Y = 0
@@ -35,7 +41,9 @@ func get_center(curves):
 		current += i
 		X += current.x
 		Y += current.y
-	return Vector2(X / len(curves), Y/len(curves))
+	var rem = max(1,len(curves))
+	print(rem, ":", X, ":", Y)
+	return Vector2(X / rem, Y / rem)
 
 
 func map(fun, list):

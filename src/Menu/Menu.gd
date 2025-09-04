@@ -112,6 +112,7 @@ func define_states():
 	var sicily = state_supplier.new(1, Vector2.ZERO+ 118*Vector2.DOWN + 122*Vector2.RIGHT, [Vector2.LEFT*2+Vector2.DOWN, Vector2.DOWN*4+Vector2.LEFT*2, Vector2.DOWN*4+Vector2.RIGHT, Vector2.RIGHT*3+Vector2.DOWN*3, Vector2.RIGHT*4, Vector2.RIGHT*5+Vector2.DOWN*2, Vector2.DOWN*2+Vector2.RIGHT, Vector2.RIGHT*4+Vector2.DOWN*3, Vector2.DOWN*2+Vector2.RIGHT*4,
 		Vector2.RIGHT*5, Vector2.RIGHT*4+Vector2.DOWN*6, Vector2.RIGHT*2, Vector2.DOWN+Vector2.RIGHT, Vector2.RIGHT*4, Vector2.RIGHT+Vector2.DOWN, Vector2.RIGHT+Vector2.UP, Vector2.UP*3+Vector2.LEFT, Vector2.UP*4+Vector2.RIGHT*4, Vector2.UP*3+Vector2.LEFT*3, Vector2.UP+Vector2.RIGHT, Vector2.UP*2+Vector2.LEFT*2, Vector2.UP*2, Vector2.RIGHT*2+Vector2.UP*6, Vector2.UP*5+Vector2.RIGHT*4,
 		Vector2.UP*2, Vector2.UP*2+Vector2.RIGHT, Vector2.LEFT*2+Vector2.UP, Vector2.LEFT*6+Vector2.DOWN*3, Vector2.UP+Vector2.LEFT*3, Vector2.DOWN*3+Vector2.LEFT*4, Vector2.LEFT*8, Vector2.LEFT*2+Vector2.DOWN, Vector2.LEFT*3, Vector2.LEFT*5+Vector2.UP*4, Vector2.LEFT*2, Vector2.DOWN*3+Vector2.LEFT*4])
+	sicily.buildings.append(River.new(Vector2(0,0), [Vector2(1, -20)], 6))
 	states.append(sicily)
 	
 	#Vector2.DOWN*5+Vector2.LEFT*2.5, Vector2.DOWN*5+Vector2.RIGHT*2.5, Vector2.UP*2+Vector2.RIGHT*2, Vector2.DOWN*5+Vector2.RIGHT*15, Vector2.DOWN*6+Vector2.RIGHT*4,

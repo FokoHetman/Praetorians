@@ -13,6 +13,9 @@ func redraw():
 	print("redrawing...")
 	print(province.getID())
 	queue_redraw()
+	for i in province.buildings:
+		if i.display_obj():
+			add_child(i.display_obj())
 
 const mult = 35
 
