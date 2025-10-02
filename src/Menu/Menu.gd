@@ -23,6 +23,10 @@ var commons = load("res://src/utils/commons.gd")
 
 var view
 
+# probably make it per country-ish?
+var CHARACTER_POOL = []
+
+
 var savedCameraPos
 var savedCameraZoom
 var defaultCameraPosition

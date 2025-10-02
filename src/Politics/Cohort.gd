@@ -7,8 +7,7 @@ var type
 
 var parent
 
-var rows = 20
-var columns = 25
+var centurias = []
 
 var position # relative to legion's root
 
@@ -16,6 +15,10 @@ func _init(type, position):
 	self.type=type
 	self.position = position
 
+# leader is the most experienced centurion.
+func get_leader():
+	var experiences = centurias.map(func(c): c.centurion.history.battles)
+	centurias.map(func(c): c.centurion).filter(func(c): c.centurion.history.battles==max(experiences))[0]
 
 func display_object(perspective: Character):
 	var color_obj = Polygon2D.new()
