@@ -29,11 +29,13 @@ func _init(character_name, surname, family, factions, country):
 
 # create a random character. used by Centurias
 static func random_military():
-	# TODO: make it look for an existing character first
-	pass#get_node("/root/Menu").CHARACTER_POOL
+	# TODO: make it look for an existing character first, given the culture/country character pool
+	# TODO: make it select *specifically* military characters
+	#get_node("/root/Menu").CHARACTER_POOL
+	return randomized()
 
 static func randomized():
-	Character.new(TEMP_NAMES.pick_random(), TEMP_SURNAMES.pick_random(), Family.new("TESTING"), null, null)
+	return Character.new(TEMP_NAMES.pick_random(), TEMP_SURNAMES.pick_random(), Family.new("TESTING"), null, null)
 
 
 
