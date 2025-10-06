@@ -7,18 +7,26 @@ var type
 
 var parent
 
-var centurias = []
+var centurias
 
 var position # relative to legion's root
 
-func _init(type, position):
+func _init(type, position, centurias = null):
 	self.type=type
 	self.position = position
+	if centurias:
+		self.centurias = centurias
+	else:
+		self.centurias = default_centurias()
+	print("CENTURIAS: ", default_centurias())
+
+func default_centurias():
+	return range(6).map(func(_void): return Centuria.new())
 
 # leader is the most experienced centurion.
 func get_leader():
-	var experiences = centurias.map(func(c): c.centurion.history.battles)
-	centurias.map(func(c): c.centurion).filter(func(c): c.centurion.history.battles==max(experiences))[0]
+	var experiences = centurias.map(func(c): return c.centurion.history.battles)
+	centurias.map(func(c): c.centurion).filter(func(c): return c.centurion.history.battles==max(experiences))[0]
 
 func display_object(perspective: Character):
 	var color_obj = Polygon2D.new()

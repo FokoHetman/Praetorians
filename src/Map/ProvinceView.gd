@@ -102,14 +102,37 @@ func redraw_gametime():
 							#display cohorts
 							print("DRAWING COHORTS")
 							for cohort in army.composition:
-								for y in range(cohort.rows):
-									for x in range(cohort.columns):
-										print("DRAWING ", x, "x", y, " UNIT")
-										var box_pos = default_pos + army.position * mult + cohort.position * mult/10 + (Vector2(x, y) - Vector2(7,7)) * mult/20
-										var object = cohort.display_object(get_parent().countries[0].ruler)
-										object.scale = Vector2(0.08, 0.08)
-										object.position = box_pos
-										$Armies.add_child(object)
+								var breakage = round(len(cohort.centurias) / 2) # round is ~ roof when dividing by 2
+								print("BREAKAGE: ", breakage)
+								var centuria_position = Vector2(0,0)
+								for ci in range(len(cohort.centurias)):
+									print("ci!")
+									var centuria = cohort.centurias[ci]
+									var y = floor(ci/breakage)
+									var centuria_pos = default_pos + army.position * mult + cohort.position * mult/10 + centuria_position * mult/15
+									var used_manpower = 0
+									for r in range(centuria.rows):
+										for c in range(centuria.columns):
+											print("DRAWING ", c, "x", r, " UNIT")
+											if used_manpower < centuria.manpower:
+												var box_pos = centuria_pos + (Vector2(c, r) - Vector2(7,7)) * mult/20
+												var object = cohort.display_object(get_parent().countries[0].ruler)
+												object.scale = Vector2(0.08, 0.08)
+												object.position = box_pos
+												$Armies.add_child(object)
+												used_manpower+=1
+									if ci+1==breakage:
+										centuria_position = Vector2(0,8)
+									else:
+										centuria_position += Vector2(8,0)
+								#for y in range(cohort.rows):
+								#	for x in range(cohort.columns):
+								#		print("DRAWING ", x, "x", y, " UNIT")
+								#		var box_pos = default_pos + army.position * mult + cohort.position * mult/10 + (Vector2(x, y) - Vector2(7,7)) * mult/20
+								#		var object = cohort.display_object(get_parent().countries[0].ruler)
+								#		object.scale = Vector2(0.08, 0.08)
+								#		object.position = box_pos
+								#		$Armies.add_child(object)
 						commons.ARMY_TYPES.LEVY:
 							print("its a levy")
 							#display levies (a single big cohort type thing)
