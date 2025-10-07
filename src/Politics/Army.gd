@@ -9,6 +9,8 @@ var kind
 var leader
 
 var position	# position INSIDE of a state
+var destination # desired position (movement)
+
 var state		# state where the legion is stationing
 
 var country

@@ -10,6 +10,7 @@ var parent
 var centurias
 
 var position # relative to legion's root
+var destination
 
 func _init(type, position, centurias = null):
 	self.type=type

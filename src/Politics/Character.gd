@@ -22,8 +22,8 @@ func _init(character_name, surname, family, factions, country):
 	self.family = family
 	self.factions = factions
 	self.country = country
-	if get_node("/root/Menu"):
-		get_node("/root/Menu").CHARACTER_POOL.append(self)
+	if get_node("/root/Map"):
+		get_node("/root/Map").CHARACTER_POOL.append(self)
 	else:
 		print_debug("WARNING: Character ", character_name, " ", surname, " ", family, " of ", country, " couldn't be added to the CHARACTER POOL.")
 

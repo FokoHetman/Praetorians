@@ -88,6 +88,8 @@ func disintegrate(pos):
 	return pos + Vector2((randi()% 20-2)*10, (randi()% 20-2)*10)
 
 func _ready():
+	var player_scene = load("res://scenes/Player.tscn").instantiate()
+	get_tree().root.add_child.call_deferred(player_scene)
 	savedCameraPos = $Camera2D.position
 	defaultCameraPosition = savedCameraPos
 	savedCameraZoom = $Camera2D.zoom

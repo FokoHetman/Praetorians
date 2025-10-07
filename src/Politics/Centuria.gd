@@ -11,6 +11,8 @@ var columns = 8
 var manpower = rows * columns
 var support  = 20 # non-combatant auxillia within the centuria
 
+var position
+var destination
 
 func _init(ccenturion=null, ooptio=null):
 	if ccenturion:

@@ -31,15 +31,29 @@ func _draw() -> void:
 		draw_state(province)
 
 func _input(event):
-	if event is InputEventMouseButton:
+	if event is InputEventMouseMotion:
 		redraw_gametime()
-
+	elif (event is InputEventMouseButton && event.pressed):
+		match event.button_index:
+			MOUSE_BUTTON_LEFT:
+				# idk
+				pass
+			MOUSE_BUTTON_RIGHT:
+				# set all selected units destination and (TODO) redraw movement arrows
+				var loc = get_local_mouse_position()
+				print(loc)
+				for i in get_node("/root/Player").selected_units:
+					i.destination = loc
+			
 func _ready():
 	var vp = get_viewport().size
 	$ui/MapButton.connect("button_up", Callable(toMap))
 	$ui/MapButton.position = Vector2(vp.x * 9/10, vp.y /2)
 	redraw_gametime()
 	
+	# TODO: make an area2D out of province's curves, it'll be used for army movement
+
+
 func toMap():
 	get_parent().toggleView(commons.VIEWS.MAP)
 	get_parent().remove_child(self)
@@ -66,6 +80,7 @@ func redraw_gametime():
 						var object = army.display_object(get_parent().countries[0].ruler)
 						object.scale = Vector2(5,5)
 						object.position = box_pos
+						mkLead(object, army)
 						$Armies.add_child(object)
 	elif czoom.x<4.5:
 		if current != DISPLAYED.COHORTS:
@@ -85,6 +100,7 @@ func redraw_gametime():
 									var object = cohort.display_object(get_parent().countries[0].ruler)
 									object.scale = Vector2(2,2)
 									object.position = box_pos
+									mkLead(object, cohort)
 									$Armies.add_child(object)
 							commons.ARMY_TYPES.LEVY:
 								print("its a levy")
@@ -122,6 +138,7 @@ func redraw_gametime():
 										var centurion = cohort.display_object(get_parent().countries[0].ruler)
 										centurion.scale = Vector2(0.105, 0.105)
 										centurion.position = centurion_pos
+										mkLead(centurion, centuria)
 										$Armies.add_child(centurion)
 									if centuria.optio:
 										print("OPTIO")
@@ -153,3 +170,11 @@ func redraw_gametime():
 							pass
 		# display soldiers
 		pass
+
+# Display OBJect
+func mkLead(dobj, army):
+	var area = UnitArea.new(army)
+	var col = CollisionPolygon2D.new()
+	col.set_polygon(dobj.polygon)
+	area.add_child(col)
+	dobj.add_child(area)
