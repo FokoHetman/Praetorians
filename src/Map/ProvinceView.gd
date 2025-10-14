@@ -4,6 +4,7 @@ var utils = load("res://src/utils/utils.gd").new()
 var commons = load("res://src/utils/commons.gd")
 
 var province
+var province_area
 
 var border_line_width = 5
 var border_color = Color.from_hsv(32/360, .41, .39, 1)
@@ -52,7 +53,12 @@ func _ready():
 	redraw_gametime()
 	
 	# TODO: make an area2D out of province's curves, it'll be used for army movement
-
+	
+	province_area = ProvinceArea.new()
+	var poly = CollisionPolygon2D.new()
+	poly.set_polygon(PackedVector2Array(utils.correctify(province.position,province.curves)))
+	province_area.add_child(poly)
+	add_child(province_area)
 
 func toMap():
 	get_parent().toggleView(commons.VIEWS.MAP)
@@ -77,7 +83,7 @@ func redraw_gametime():
 				for army in country.armies:
 					if army.state.id == province.id:
 						var box_pos = default_pos + army.position * mult
-						var object = army.display_object(get_parent().countries[0].ruler)
+						var object = army.generate_display_object(get_parent().countries[0].ruler)
 						object.scale = Vector2(5,5)
 						object.position = box_pos
 						mkLead(object, army)
@@ -97,7 +103,7 @@ func redraw_gametime():
 								for cohort in army.composition:
 									print("DRAWING COHORT:", cohort)
 									var box_pos = default_pos + army.position * mult + cohort.position * mult/10
-									var object = cohort.display_object(get_parent().countries[0].ruler)
+									var object = cohort.generate_display_object(get_parent().countries[0].ruler)
 									object.scale = Vector2(2,2)
 									object.position = box_pos
 									mkLead(object, cohort)
@@ -135,7 +141,7 @@ func redraw_gametime():
 										print("CENTURION")
 										# todo: make them more distinct
 										var centurion_pos = centuria_pos + (Vector2(-1.2, -0.2) - Vector2(7,7)) * mult/20
-										var centurion = cohort.display_object(get_parent().countries[0].ruler)
+										var centurion = cohort.generate_display_object(get_parent().countries[0].ruler)
 										centurion.scale = Vector2(0.105, 0.105)
 										centurion.position = centurion_pos
 										mkLead(centurion, centuria)
@@ -144,7 +150,7 @@ func redraw_gametime():
 										print("OPTIO")
 										# todo: make them more distinct
 										var optio_pos = centuria_pos + (Vector2(centuria.columns, centuria.rows) - Vector2(6.75,8)) * mult/20 
-										var optio = cohort.display_object(get_parent().countries[0].ruler)
+										var optio = cohort.generate_display_object(get_parent().countries[0].ruler)
 										optio.scale = Vector2(0.1, 0.1)
 										optio.position = optio_pos
 										$Armies.add_child(optio)
@@ -155,7 +161,7 @@ func redraw_gametime():
 											print("DRAWING ", c, "x", r, " UNIT")
 											if used_manpower < centuria.manpower:
 												var box_pos = centuria_pos + (Vector2(c, r) - Vector2(7,7)) * mult/20
-												var object = cohort.display_object(get_parent().countries[0].ruler)
+												var object = cohort.generate_display_object(get_parent().countries[0].ruler)
 												object.scale = Vector2(0.08, 0.08)
 												object.position = box_pos
 												$Armies.add_child(object)
@@ -174,6 +180,7 @@ func redraw_gametime():
 # Display OBJect
 func mkLead(dobj, army):
 	var area = UnitArea.new(army)
+	army.display_object = dobj
 	var col = CollisionPolygon2D.new()
 	col.set_polygon(dobj.polygon)
 	area.add_child(col)

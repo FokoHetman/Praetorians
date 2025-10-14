@@ -11,6 +11,8 @@ var leader
 var position	# position INSIDE of a state
 var destination # desired position (movement)
 
+var display_object
+
 var state		# state where the legion is stationing
 
 var country
@@ -35,7 +37,7 @@ func assign(state: State):
 func assign_leader(leader: Character):
 	self.leader = leader
 
-func display_object(perspective: Character):
+func generate_display_object(perspective: Character):
 	var color_obj = Polygon2D.new()
 	color_obj.set_polygon(PackedVector2Array(commons.rounded_square)) # cool rounded sqwuare
 	color_obj.scale = Vector2(0.75, 0.75)

@@ -18,7 +18,7 @@ func _input_event(vp, event, sidx):
 					get_node("/root/Player").selected_units.append(unit)
 				else:
 					get_node("/root/Player").selected_units = [unit]
-				print(get_node("/root/Player").selected_units)
+				unit.display_object.color = Color.WHITE
 			MOUSE_BUTTON_RIGHT:
 				# TODO: display info about unit's general/commander/leader/whoever
 				pass

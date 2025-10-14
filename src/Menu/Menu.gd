@@ -272,7 +272,7 @@ func redraw_gametime():
 	for country in countries:
 		for army in country.armies:
 			var box_pos = army.state.position + army.position # DONE: offset not by center, but by accurate position of the army
-			var object = army.display_object(countries[0].ruler) # rome's ruler
+			var object = army.generate_display_object(countries[0].ruler) # rome's ruler
 			object.position = box_pos
 			$States.add_child(object)
 			print(object)

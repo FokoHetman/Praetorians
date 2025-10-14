@@ -9,8 +9,10 @@ var parent
 
 var centurias
 
+var display_object
+
 var position # relative to legion's root
-var destination
+var destination #WARNING: this is GLOBAL destination position, it doesn't account parents' position.
 
 func _init(type, position, centurias = null):
 	self.type=type
@@ -29,7 +31,7 @@ func get_leader():
 	var experiences = centurias.map(func(c): return c.centurion.history.battles)
 	centurias.map(func(c): c.centurion).filter(func(c): return c.centurion.history.battles==max(experiences))[0]
 
-func display_object(perspective: Character):
+func generate_display_object(perspective: Character):
 	var color_obj = Polygon2D.new()
 	color_obj.set_polygon(PackedVector2Array(commons.rounded_square)) # cool rounded sqwuare
 	color_obj.scale = Vector2(0.75, 0.75)
