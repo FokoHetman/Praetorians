@@ -56,7 +56,9 @@ func _ready():
 	
 	province_area = ProvinceArea.new()
 	var poly = CollisionPolygon2D.new()
-	poly.set_polygon(PackedVector2Array(utils.correctify(province.position,province.curves)))
+	var mcurves = province.curves.map(func(x): return x*mult)
+	poly.set_polygon(PackedVector2Array(utils.correctify(Vector2(0,0),mcurves)))
+	poly.position = -utils.get_center(mcurves)
 	province_area.add_child(poly)
 	add_child(province_area)
 

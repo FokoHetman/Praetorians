@@ -57,8 +57,9 @@ func toggleUI():
 	$ui.visible = not $ui.visible
 
 
-var province_view = preload("res://scenes/Province.tscn").instantiate()
+var province_view = null
 func spawnProvinceView(province):
+	province_view = preload("res://scenes/Province.tscn").instantiate()
 	province_view.province = province
 	add_child(province_view)
 	province_view.redraw()
