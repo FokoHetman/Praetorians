@@ -40,7 +40,6 @@ func _input(event):
 				# idk
 				pass
 			MOUSE_BUTTON_RIGHT:
-				# set all selected units destination and (TODO) redraw movement arrows
 				var loc = get_local_mouse_position()
 				print(loc)
 				for i in get_node("/root/Player").selected_units:
@@ -128,17 +127,13 @@ func redraw_gametime():
 							for cohort in army.composition:
 								var breakage = round(len(cohort.centurias) / 2) # round is ~ roof when dividing by 2
 								print("BREAKAGE: ", breakage)
-								
 								var centuria_position = Vector2(0,0)
-								
 								# displaying centurias
 								for ci in range(len(cohort.centurias)):
 									var centuria = cohort.centurias[ci]
 									var y = floor(ci/breakage)
 									var centuria_pos = default_pos + army.position * mult + cohort.position * mult/10 + centuria_position * mult/15
-									
 									### displaying centurions and optios
-									
 									if centuria.centurion:
 										print("CENTURION")
 										# todo: make them more distinct
@@ -179,11 +174,13 @@ func redraw_gametime():
 		# display soldiers
 		pass
 
+
 # Display OBJect
 func mkLead(dobj, army):
 	var area = UnitArea.new(army)
 	army.display_object = dobj
 	var col = CollisionPolygon2D.new()
 	col.set_polygon(dobj.polygon)
+	col.position = -utils.get_center(dobj.polygon)/6.75 # magiczna liczba która po prostu działa
 	area.add_child(col)
 	dobj.add_child(area)
