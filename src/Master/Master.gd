@@ -23,6 +23,10 @@ var commons = load("res://src/utils/commons.gd")
 
 var view
 
+# probably make it per country-ish?
+var CHARACTER_POOL = []
+
+
 var savedCameraPos
 var savedCameraZoom
 var defaultCameraPosition
@@ -53,8 +57,9 @@ func toggleUI():
 	$ui.visible = not $ui.visible
 
 
-var province_view = preload("res://scenes/Province.tscn").instantiate()
+var province_view = null
 func spawnProvinceView(province):
+	province_view = preload("res://scenes/Province.tscn").instantiate()
 	province_view.province = province
 	add_child(province_view)
 	province_view.redraw()
@@ -84,6 +89,8 @@ func disintegrate(pos):
 	return pos + Vector2((randi()% 20-2)*10, (randi()% 20-2)*10)
 
 func _ready():
+	var player_scene = load("res://scenes/Player.tscn").instantiate()
+	get_tree().root.add_child.call_deferred(player_scene)
 	savedCameraPos = $Camera2D.position
 	defaultCameraPosition = savedCameraPos
 	savedCameraZoom = $Camera2D.zoom
@@ -133,7 +140,7 @@ func define_states():
 	var basilicata = state_supplier.new(3, Vector2.ZERO + 180*Vector2.RIGHT + 80*Vector2.DOWN, [Vector2.UP*5+Vector2.RIGHT*3, Vector2.LEFT+Vector2.UP, Vector2.UP+2*Vector2.LEFT, Vector2.UP+Vector2.RIGHT, Vector2.UP*4+Vector2.LEFT, Vector2.LEFT*2, Vector2.LEFT+Vector2.DOWN, Vector2.LEFT*3+Vector2.UP*2, Vector2.UP*2+Vector2.LEFT, Vector2.LEFT*2, Vector2.LEFT+Vector2.UP, Vector2.UP+Vector2.RIGHT/2, Vector2.LEFT*3+Vector2.UP*2.5, Vector2.LEFT+Vector2.DOWN, Vector2.LEFT*3.5,
 		Vector2.DOWN*2+Vector2.RIGHT, Vector2.DOWN*2+Vector2.LEFT*2, Vector2.LEFT*1.5, Vector2.DOWN*2, Vector2.DOWN*2.5+Vector2.RIGHT*1.5, Vector2.DOWN, Vector2.RIGHT+Vector2.DOWN, Vector2.DOWN*0.5, Vector2.DOWN*5+Vector2.RIGHT*4, Vector2.DOWN*4+Vector2.LEFT*3, Vector2.DOWN*2+Vector2.RIGHT*2,
 		 Vector2.UP*0.5,
-		 Vector2.RIGHT+Vector2.UP, Vector2.RIGHT*2, Vector2.RIGHT*3+Vector2.DOWN*2, Vector2.UP+Vector2.RIGHT*2, Vector2.RIGHT+Vector2.DOWN, Vector2.UP*3+Vector2.RIGHT, Vector2.UP*2+Vector2.RIGHT*2
+		 Vector2.RIGHT+Vector2.UP, Vector2.RIGHT*2, Vector2.RIGHT*3+Vector2.DOWN*2, Vector2.UP+Vector2.RIGHT*2, Vector2.RIGHT+Vector2.DOWN, Vector2.UP*3+Vector2.RIGHT
 		])
 	states.append(basilicata)
 
@@ -205,10 +212,26 @@ func define_states():
 	font = commons.font()
 	#update() # Replace with function body.
 
+func state_from_id(id: int):
+	for i in states:
+		if i.id == id:
+			return i
 func define_countries():
-	var rome = country_supplier.new("Rome",[1,2,3,4,5,6,7,8,9,10])
-	countries.append(rome)
+	var loyalists = Faction.new(1, [])
 
+	var romulus_family = Family.new("Mars")
+	var king = Character.new("Romulus", "", romulus_family, [], 1)
+
+	var rome = Country.new(1, king, [state_from_id(7)], [loyalists])
+
+
+	rome.states[0].governor = king
+	rome.create_legion(rome.states[0], rome.factions[0], 
+		[Cohort.new(commons.COHORT_TYPES.INFANTRY, Vector2(10, 10)), Cohort.new(commons.COHORT_TYPES.INFANTRY, Vector2(-10, 10)), 
+		 Cohort.new(commons.COHORT_TYPES.ARCHERS, Vector2(10, -10)), Cohort.new(commons.COHORT_TYPES.ARCHERS, Vector2(-10, -10))])
+	countries.append(rome)
+	redraw_gametime()
+	#utils.get_stance(loyalists, loyalists)
 
 func _input(event) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
@@ -238,6 +261,27 @@ func redraw_focus():
 			state.area.get_children()[1].color = commons.default_state_color
 
 
+
+### WHO IS  THE PLAYER?
+# for now - player is handled as the chosen country's ruler.
+
+
+
+# redraw based on things such as legion positions etc
+func redraw_gametime():
+	pass
+	
+	for country in countries:
+		for army in country.armies:
+			var box_pos = army.state.position + army.position # DONE: offset not by center, but by accurate position of the army
+			var object = army.generate_display_object(countries[0].ruler) # rome's ruler
+			object.position = box_pos
+			$States.add_child(object)
+			print(object)
+			
+
+
+# this is dumb.
 func _process(delta):
 	if time:
 		$ui/Time/Date.text = time.format()

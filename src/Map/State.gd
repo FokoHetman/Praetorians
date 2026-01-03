@@ -22,6 +22,7 @@ var buildings
 
 var population
 
+var governor
 
 var hovered
 var selected
@@ -54,30 +55,23 @@ func display_type():
 		_:
 			return tr(h+"ERROR")
 
-func getID():
+func getID() -> String:
 	return tr("PROVINCE." + str(self.id))
-
+func description() -> String:
+	var result = ""
+	result += 'Type: '+ display_type() 
+	result += '\nPopulation: '+ str(population)
+	if governor:
+		result += '\nGovernor: ' + governor.display()
+	else:
+		result += "\nUngoverned"
+	return result
 func gen_poly() -> CollisionPolygon2D:
 	self.poly.set_polygon(PackedVector2Array(utils.correctify(self.position,curves)))
 	
 	self.color_obj.set_polygon(PackedVector2Array(utils.correctify(self.position,curves)))
 	self.color_obj.color = commons.default_state_color
 	#self.color_obj.texture = commons.get_biome_texture(self.type) # TODO
-	match self.type:
-		commons.TYPES.MOUNTAINS:
-			self.color_obj.texture_offset = Vector2(300, 200)
-			self.color_obj.texture_scale = Vector2(5,5)
-		commons.TYPES.PLAINS:
-			self.color_obj.texture_scale = Vector2(4,4)
-			self.color_obj.texture_offset = Vector2(250, -200)
-		commons.TYPES.FOREST:
-			self.color_obj.texture_scale = Vector2(4,4)
-			self.color_obj.texture_offset = Vector2(250, -200)
-		commons.TYPES.DESERT:
-			self.color_obj.texture_scale = Vector2(4,4)
-			self.color_obj.texture_offset = Vector2(-150, -200)
-		_:
-			self.color_obj.texture_scale = Vector2(6,6)
 	return self.poly
 func gen_area() -> Area2D:
 	self.area.add_child(gen_poly())

@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://d21a6wtnivgr6"
+
+[deps]
+
+files=["res://translations/factions.en.translation", "res://translations/factions.pl.translation"]
+
+source_file="res://translations/factions.csv"
+dest_files=["res://translations/factions.en.translation", "res://translations/factions.pl.translation"]
+
+[params]
+
+compress=true
+delimiter=0

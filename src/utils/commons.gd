@@ -8,13 +8,9 @@ func font() -> FontFile:
 	var font = FontFile.new()
 	font.font_data = load("res://assets/DaysOne.ttf")
 	return font
+
 enum TYPES {FOREST, DESERT, PLAINS, MOUNTAINS}
-
 enum VIEWS {MAP,PROVINCE}
-
-#<<<<<DISCUSSION
-# TODO: explain purpose of each type
-# unsure about FORTRESS belonging
 enum SETTLEMENT_TYPE {CITY,VILLAGE,CAMP,FORTRESS}
 enum BUILDING_TYPE {NATURAL, ARTIFICIAL}
 enum BUILDING_KIND {PORT, WALL, BLACKSMITH, RIVER, MOUNTAIN}
@@ -27,6 +23,9 @@ func getType(kind):
 			return BUILDING_TYPE.NATURAL
 		_:
 			return BUILDING_TYPE.ARTIFICIAL
-			
 
-#>>>>>>
+
+enum ARMY_TYPES {LEGION, LEVY}
+enum COHORT_TYPES {ARCHERS,INFANTRY,CAVALRY}
+enum STANCE {AGGRESSIVE, NEUTRAL, ALLIED}
+const rounded_square = [Vector2(2,0), Vector2(18,0), Vector2(20, 2), Vector2(20, 8), Vector2(18, 10), Vector2(2, 10), Vector2(0, 8), Vector2(0,2)]
