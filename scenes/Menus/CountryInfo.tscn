@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://d02hg8ufc5jl"]
+
+[ext_resource type="Script" uid="uid://75onnjp6roro" path="res://src/Master/Menus/CountryInfo.gd" id="1_v2v1i"]
+[ext_resource type="Texture2D" uid="uid://bqnqhlx3yuqbn" path="res://assets/textures/Menus/CountryInfoPanel.png" id="2_hqjk7"]
+
+[node name="CountryInfo" type="CanvasLayer"]
+script = ExtResource("1_v2v1i")
+metadata/_custom_type_script = "uid://d1hxjs13jtcuf"
+
+[node name="CountryInfoPanel" type="Sprite2D" parent="."]
+position = Vector2(358, 720)
+texture = ExtResource("2_hqjk7")
+
+[node name="Labels" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0

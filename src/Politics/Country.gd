@@ -4,7 +4,6 @@ class_name Country
 var commons = load("res://src/utils/commons.gd")
 
 var id
-var states
 var factions
 var dominant_faction # index 
 # TODO ^
@@ -14,9 +13,8 @@ var armies
 
 var ruler
 
-func _init(id,ruler,states=[], factions=[], characters=[], wars=[], armies=[]):
+func _init(id,ruler=null, factions=[], characters=[], wars=[], armies=[]):
 	self.id = id
-	self.states = states
 	self.factions = factions
 	self.characters = characters
 	self.wars = wars

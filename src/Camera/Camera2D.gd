@@ -29,7 +29,7 @@ func _process(delta):
 	update_lims()
 	match get_node("/root/Map").view:
 		_:
-			if get_node("/root/Map/Menu").visible:
+			if get_node("/root/Map").camera_locked:
 				return 
 			var move_speed = d_speed / zoom.x * delta * 100
 			var viewPortMousePos = get_viewport().get_mouse_position()
@@ -53,6 +53,16 @@ func _process(delta):
 			if zoom.x==clamp(zoom.x-acceleration*speed, min_zoom, max_zoom) or zoom.y==clamp(zoom.y-acceleration*speed, min_zoom, max_zoom): #resetting acceleration on reaching max
 				acceleration=0
 			zoom = Vector2(clamp(zoom.x-acceleration*speed, min_zoom, max_zoom), clamp(zoom.y-acceleration*speed, min_zoom, max_zoom))
+			
+			if Input.is_action_pressed("ui_down"):
+				position = position.move_toward(position + Vector2(0, 50), d_speed / zoom.x * delta * 100)
+			if Input.is_action_pressed("ui_up"):
+				position = position.move_toward(position - Vector2(0, 50), d_speed / zoom.x * delta * 100)
+			if Input.is_action_pressed("ui_right"):
+				position = position.move_toward(position + Vector2(50, 0), d_speed / zoom.x * delta * 100)
+			if Input.is_action_pressed("ui_left"):
+				position = position.move_toward(position - Vector2(50, 0), d_speed / zoom.x * delta * 100)
+
 
 ### this indicates whether user is using scroll to move the map, also gives starting position of the movement.
 var moving_scroll = [false, Vector2(0,0)]
@@ -60,17 +70,19 @@ var moving_scroll = [false, Vector2(0,0)]
 func _input(event):
 	match get_node("/root/Map").view:
 		_:
-			if not get_node("/root/Map/Menu").visible:
-				if event is InputEventMouseButton:
-					if event.is_pressed():
-						if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-							acceleration-=0.1
-						if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-							acceleration+=0.1
-						if event.button_index == MOUSE_BUTTON_MIDDLE:
-							moving_scroll = [true, event.position]
-					if event.is_released() and event.button_index == MOUSE_BUTTON_MIDDLE:
-						moving_scroll = [false, Vector2(0,0)]
+			if get_node("/root/Map").camera_locked:
+				return
+			
+			if event is InputEventMouseButton:
+				if event.is_pressed():
+					if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+						acceleration-=0.1
+					if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+						acceleration+=0.1
+					if event.button_index == MOUSE_BUTTON_MIDDLE:
+						moving_scroll = [true, event.position]
+				if event.is_released() and event.button_index == MOUSE_BUTTON_MIDDLE:
+					moving_scroll = [false, Vector2(0,0)]
 var bg
 func _ready():
 	bg = get_node("/root/Map/Background")

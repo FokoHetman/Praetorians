@@ -7,7 +7,10 @@ var hour
 var speed = 1
 var paused = true
 
-
+func set_playing(b):
+	self.paused = b
+func toggle():
+	self.paused = not paused
 
 func format() -> String:
 	var era = "A.C"

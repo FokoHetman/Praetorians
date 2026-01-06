@@ -1,0 +1,49 @@
+[gd_scene load_steps=3 format=3 uid="uid://bc1hefnanqjwo"]
+
+[ext_resource type="Script" uid="uid://dc1k3gnpcxcny" path="res://src/Master/Menus/Pause.gd" id="1_dldf2"]
+[ext_resource type="Theme" uid="uid://ctq1grfhj0iks" path="res://assets/themes/MenuButton.tres" id="2_1xew4"]
+
+[node name="Pause" type="CanvasLayer"]
+script = ExtResource("1_dldf2")
+metadata/_custom_type_script = "uid://d1hxjs13jtcuf"
+
+[node name="CategoryContainer" type="VBoxContainer" parent="."]
+offset_left = 165.0
+offset_top = 453.0
+offset_right = 951.0
+offset_bottom = 1043.0
+theme_override_constants/separation = 20
+
+[node name="return" type="Button" parent="CategoryContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("2_1xew4")
+text = "return
+"
+
+[node name="video" type="Button" parent="CategoryContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("2_1xew4")
+text = "video"
+
+[node name="audio" type="Button" parent="CategoryContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("2_1xew4")
+text = "audio"
+
+[node name="save" type="Button" parent="CategoryContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("2_1xew4")
+disabled = true
+text = "save"
+
+[node name="exit" type="Button" parent="CategoryContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("2_1xew4")
+text = "exit"
+
+[node name="Submenus" type="Node2D" parent="."]

@@ -2,6 +2,9 @@
 extends Node2D
 
 
+#### TODO: Split into Master and Map
+
+
 var utils = load("res://src/utils/utils.gd").new()
 var state_supplier = load("res://src/Map/State.gd")
 var country_supplier = load("res://src/Politics/Country.gd")
@@ -17,7 +20,7 @@ var select_color = Color.from_hsv(45/360, 75/360, 96/360, 1)
 var game_size = Vector2(0.226, 0.308)
 
 
-var time = load("res://src/Runtime/GameTime.gd").new(-753,110,0)
+var time = load("res://src/Runtime/GameTime.gd").new(-753,111,0)
 
 var commons = load("res://src/utils/commons.gd")
 
@@ -26,10 +29,13 @@ var view
 # probably make it per country-ish?
 var CHARACTER_POOL = []
 
-
 var savedCameraPos
 var savedCameraZoom
 var defaultCameraPosition
+
+var camera_locked = false
+
+
 func toggleView(viewc, province=null):
 	# TODO: disable UI, make the province view.
 	if view == commons.VIEWS.MAP:
@@ -40,7 +46,6 @@ func toggleView(viewc, province=null):
 		commons.VIEWS.PROVINCE:
 			$Camera2D.position = defaultCameraPosition
 			$Camera2D.zoom = Vector2(1,1)
-			toggleUI()
 			spawnProvinceView(province)
 			queue_redraw()
 			$States.visible = false
@@ -48,13 +53,8 @@ func toggleView(viewc, province=null):
 		commons.VIEWS.MAP:
 			$Camera2D.position = savedCameraPos
 			$Camera2D.zoom = savedCameraZoom
-			toggleUI()
 			toggleMap()
 	pass
-
-
-func toggleUI():
-	$ui.visible = not $ui.visible
 
 
 var province_view = null
@@ -89,12 +89,16 @@ func disintegrate(pos):
 	return pos + Vector2((randi()% 20-2)*10, (randi()% 20-2)*10)
 
 func _ready():
+	commons.set_resolution(Vector2(480, 360))
+	#$ui.position.x = get_viewport().size.x - 0.1*get_viewport().size.x
+	#$ui.position.y = get_viewport().size.y - 0.9*get_viewport().size.y
+	#$ui.scale.x = get_viewport().size.x / 1920 * $ui/Time.scale.x
+	#$ui.scale.y = get_viewport().size.y / 1080 * $ui/Time.scale.y
 	var player_scene = load("res://scenes/Player.tscn").instantiate()
 	get_tree().root.add_child.call_deferred(player_scene)
 	savedCameraPos = $Camera2D.position
 	defaultCameraPosition = savedCameraPos
 	savedCameraZoom = $Camera2D.zoom
-	toggleUI()
 	var preferred_language = OS.get_locale_language()
 	TranslationServer.set_locale(preferred_language)
 
@@ -103,12 +107,9 @@ func _ready():
 	toggleView(commons.VIEWS.MAP)
 	define_states()
 	define_countries()
+
+
 func toggleMap(): # not actually a toggle
-	$ui/Time.position.x = get_viewport().size.x - 0.1*get_viewport().size.x
-	$ui/Time.position.y = get_viewport().size.y - 0.9*get_viewport().size.y
-	$ui/Time.scale.x = get_viewport().size.x / 1920 * $ui/Time.scale.x
-	$ui/Time.scale.y = get_viewport().size.y / 1080 * $ui/Time.scale.y
-	
 	$States.visible = true
 	queue_redraw()
 
@@ -222,11 +223,11 @@ func define_countries():
 	var romulus_family = Family.new("Mars")
 	var king = Character.new("Romulus", "", romulus_family, [], 1)
 
-	var rome = Country.new(1, king, [state_from_id(7)], [loyalists])
+	var rome = Country.new(1, king, [loyalists])
+	king.country = rome
 
-
-	rome.states[0].governor = king
-	rome.create_legion(rome.states[0], rome.factions[0], 
+	state_from_id(7).governor = king
+	rome.create_legion(state_from_id(7), rome.factions[0], 
 		[Cohort.new(commons.COHORT_TYPES.INFANTRY, Vector2(10, 10)), Cohort.new(commons.COHORT_TYPES.INFANTRY, Vector2(-10, 10)), 
 		 Cohort.new(commons.COHORT_TYPES.ARCHERS, Vector2(10, -10)), Cohort.new(commons.COHORT_TYPES.ARCHERS, Vector2(-10, -10))])
 	countries.append(rome)
@@ -234,15 +235,17 @@ func define_countries():
 	#utils.get_stance(loyalists, loyalists)
 
 func _input(event) -> void:
-	if Input.is_action_just_pressed("ui_cancel"):
-		if $Menu.visible:
-			$Menu.restart()
-		else:
-			$Menu.show()
-	
 	if event is InputEventMouseMotion:
 		#print("hover")
 		reset_hover()
+	
+	if Input.is_action_just_pressed("ui_cancel"):
+		if current_menu:
+			exitCurrentMenu()
+		else:
+			camera_locked = true
+			time.set_playing(false)
+			toggleMenu(commons.Menus.Pause)
 
 func reset_selection():
 	for state in states:
@@ -278,10 +281,47 @@ func redraw_gametime():
 			object.position = box_pos
 			$States.add_child(object)
 			print(object)
-			
 
 
 # this is dumb.
 func _process(delta):
 	if time:
 		$ui/Time/Date.text = time.format()
+
+var current_menu = null
+
+func renderMenu(menu, target=null):
+	match menu.menutype:
+		commons.Menus.CountryInfo, commons.Menus.ProvinceInfo:
+			menu.render(target)
+		commons.Menus.Pause:
+			menu.render()
+
+func exitCurrentMenu():
+	camera_locked = false
+	$ui.remove_child(current_menu) # making sure
+	current_menu.queue_free()
+	current_menu = null # making sure in a different way
+
+func toggleMenu(menutype, target=null):
+	if current_menu and "menutype" in current_menu:
+		if current_menu.menutype==menutype:
+			renderMenu(current_menu, target)
+			return
+		else:
+			exitCurrentMenu()
+	match menutype:
+		commons.Menus.CountryInfo, commons.Menus.ProvinceInfo:
+			assert(target!=null)
+			var new_menu = commons.MenuScenes[menutype].instantiate()
+			$ui.add_child(new_menu)
+			renderMenu(new_menu, target)
+			current_menu = new_menu
+		commons.Menus.MissionTree:
+			assert(target!=null)
+			assert(false)
+		commons.Menus.Pause:
+			var new_menu = commons.MenuScenes[menutype].instantiate()
+			$ui.add_child(new_menu)
+			renderMenu(new_menu)
+			current_menu = new_menu

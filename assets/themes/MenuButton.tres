@@ -1,0 +1,28 @@
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://ctq1grfhj0iks"]
+
+[ext_resource type="Texture2D" uid="uid://c7cnycgvv1vq5" path="res://assets/themes/theme_textures/menubutton.png" id="1_44ue2"]
+[ext_resource type="FontFile" uid="uid://dqpibld1vkda" path="res://assets/DaysOne.ttf" id="1_s86db"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_k1rwk"]
+texture = ExtResource("1_44ue2")
+
+[resource]
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/colors/font_disabled_color = Color(0.521141, 0.521141, 0.52114, 1)
+Button/colors/font_focus_color = Color(0.114897, 0.114897, 0.114897, 1)
+Button/colors/font_hover_color = Color(0.612159, 0.393896, 0, 1)
+Button/colors/font_hover_pressed_color = Color(0.950576, 0.637962, 0.212658, 1)
+Button/colors/font_pressed_color = Color(0.894118, 0.666667, 0.321569, 1)
+Button/colors/icon_focus_color = Color(1, 1, 1, 1)
+Button/colors/icon_hover_color = Color(1, 1, 1, 1)
+Button/colors/icon_hover_pressed_color = Color(1, 1, 1, 1)
+Button/colors/icon_normal_color = Color(1, 1, 1, 1)
+Button/colors/icon_pressed_color = Color(1, 1, 1, 1)
+Button/constants/line_spacing = 0
+Button/font_sizes/font_size = 36
+Button/fonts/font = ExtResource("1_s86db")
+Button/styles/disabled = SubResource("StyleBoxTexture_k1rwk")
+Button/styles/focus = SubResource("StyleBoxTexture_k1rwk")
+Button/styles/hover = SubResource("StyleBoxTexture_k1rwk")
+Button/styles/normal = SubResource("StyleBoxTexture_k1rwk")
+Button/styles/pressed = SubResource("StyleBoxTexture_k1rwk")
