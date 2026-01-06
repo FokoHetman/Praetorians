@@ -43,8 +43,16 @@ const rounded_square = [Vector2(2,0), Vector2(18,0), Vector2(20, 2), Vector2(20,
 
 const resolutions = [Vector2(2560,1440),Vector2(1920,1080),Vector2(1280,720)]
 # resolution should be possible to be made anything, in case of weird devices. Above list is only "recommended" values.
-const default_resolution = resolutions[1]
+const default_resolution = 1
 
-func set_resolution(res: Vector2 = default_resolution) -> void:
+
+func resolutionStr(vec: Vector2) -> String:
+	return "%sx%s" % [vec.x, vec.y]
+func resolutionFromStr(s: String):
+	var splt = s.split("x")
+	return Vector2(int(splt[0]),int(splt[1]))
+func set_resolution(res: Vector2 = resolutions[default_resolution]) -> void:
 	get_window().size = res
 	get_window().position = Vector2((DisplayServer.screen_get_size().x-get_window().size.x)/2,(DisplayServer.screen_get_size().y-get_window().size.y)/2)
+func set_resolution_str(s: String):
+	set_resolution(resolutionFromStr(s))

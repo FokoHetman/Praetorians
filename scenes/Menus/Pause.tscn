@@ -47,3 +47,21 @@ theme = ExtResource("2_1xew4")
 text = "exit"
 
 [node name="Submenus" type="Node2D" parent="."]
+
+[node name="video" type="VBoxContainer" parent="Submenus"]
+visible = false
+offset_left = 1033.0
+offset_top = 198.0
+offset_right = 2471.0
+offset_bottom = 1216.0
+
+[node name="Resolution" type="HBoxContainer" parent="Submenus/video"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Submenus/video/Resolution"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Resolution"
+
+[node name="Resolutions" type="OptionButton" parent="Submenus/video/Resolution"]
+layout_mode = 2
