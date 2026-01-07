@@ -1,0 +1,92 @@
+[gd_scene load_steps=8 format=3 uid="uid://dnw1yufnvw2n8"]
+
+[ext_resource type="Script" uid="uid://crgthsu2a8opi" path="res://src/Master/UI/PersistentUI.gd" id="1_mq1mv"]
+[ext_resource type="Script" uid="uid://btg2saba66dn7" path="res://src/Master/UI/PersistentUI/TimeUI.gd" id="2_nbjcu"]
+[ext_resource type="Texture2D" uid="uid://yv1htub45aup" path="res://assets/textures/tablica/roman_1.png" id="2_rm6ky"]
+[ext_resource type="Script" uid="uid://mmly6v3k5d3l" path="res://src/Extendo/PathText.gd" id="4_mq1mv"]
+[ext_resource type="FontFile" uid="uid://dqpibld1vkda" path="res://assets/DaysOne.ttf" id="5_bhi8i"]
+
+[sub_resource type="Curve2D" id="Curve2D_mq1mv"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 40.845, -6.915, 0, 0, 0, 0, 94.115, -7.01, 0, 0, 0, 0, 136.455, 0, 0, 0, 0, 0, 206.13, 0)
+}
+point_count = 5
+
+[sub_resource type="LabelSettings" id="LabelSettings_mq1mv"]
+font = ExtResource("5_bhi8i")
+font_size = 26
+
+[node name="PersistentUI" type="CanvasLayer"]
+script = ExtResource("1_mq1mv")
+metadata/_custom_type_script = "uid://d1hxjs13jtcuf"
+
+[node name="Time" type="Container" parent="."]
+offset_left = 2226.0
+offset_top = 33.0
+offset_right = 2539.0
+offset_bottom = 278.0
+script = ExtResource("2_nbjcu")
+
+[node name="Texture" type="TextureRect" parent="Time"]
+layout_mode = 2
+texture = ExtResource("2_rm6ky")
+
+[node name="Inc" type="Button" parent="Time/Texture"]
+layout_mode = 2
+offset_left = 220.0
+offset_top = 99.0
+offset_right = 281.0
+offset_bottom = 160.0
+theme_override_font_sizes/font_size = 32
+text = "+
+"
+
+[node name="Dec" type="Button" parent="Time/Texture"]
+layout_mode = 2
+offset_left = 27.0
+offset_top = 99.0
+offset_right = 88.0
+offset_bottom = 160.0
+theme_override_font_sizes/font_size = 32
+text = "-"
+
+[node name="Date" type="Path2D" parent="Time/Texture"]
+position = Vector2(65, 47)
+curve = SubResource("Curve2D_mq1mv")
+script = ExtResource("4_mq1mv")
+text = "21.4.753 B.C"
+label_settings = SubResource("LabelSettings_mq1mv")
+metadata/_custom_type_script = "uid://mmly6v3k5d3l"
+
+[node name="125x35_state" type="TextureButton" parent="Time/Texture"]
+layout_mode = 0
+offset_left = 58.0
+offset_top = 195.0
+offset_right = 273.0
+offset_bottom = 228.0
+toggle_mode = true
+
+[node name="State" type="Button" parent="Time/Texture"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 170.0
+offset_right = 261.0
+offset_bottom = 205.0
+
+[node name="Flag" type="Container" parent="."]
+offset_right = 241.0
+offset_bottom = 358.0
+
+[node name="Tabs" type="VBoxContainer" parent="."]
+offset_top = 289.0
+offset_right = 87.0
+offset_bottom = 1295.0
+alignment = 1
+
+[node name="Trade" type="TextureButton" parent="Tabs"]
+layout_mode = 2
+
+[node name="Resources" type="HBoxContainer" parent="."]
+offset_left = 241.0
+offset_right = 1474.0
+offset_bottom = 52.0

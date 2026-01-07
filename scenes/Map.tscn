@@ -1,13 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://cc7oe8tjpxrp7"]
+[gd_scene load_steps=8 format=3 uid="uid://cc7oe8tjpxrp7"]
 
 [ext_resource type="Script" uid="uid://2gja7ewqhsyo" path="res://src/Master/Master.gd" id="1_bhm4d"]
 [ext_resource type="Script" uid="uid://clrcgwglgl6xi" path="res://src/Camera/Camera2D.gd" id="2_fhlij"]
+[ext_resource type="PackedScene" uid="uid://dnw1yufnvw2n8" path="res://scenes/PersistentUI.tscn" id="2_inly4"]
 [ext_resource type="Texture2D" uid="uid://scatb08b3wo7" path="res://assets/textures/rome.png" id="3_dbu0r"]
-[ext_resource type="FontFile" uid="uid://dqpibld1vkda" path="res://assets/DaysOne.ttf" id="4_jrcb4"]
-[ext_resource type="Texture2D" uid="uid://yv1htub45aup" path="res://assets/textures/tablica/roman_1.png" id="5_b3mxb"]
-[ext_resource type="Script" uid="uid://b16t45g3ci5we" path="res://src/utils/button/plus_button.gd" id="6_saq0m"]
-[ext_resource type="Script" uid="uid://cmliqufm1wwfk" path="res://src/utils/button/minus_button.gd" id="7_s2a0k"]
-[ext_resource type="Script" uid="uid://bteifganmf1vq" path="res://src/utils/button/stop.gd" id="8_iye0r"]
 [ext_resource type="Texture2D" uid="uid://cowjwtl3y4iv1" path="res://assets/textures/icon.png" id="9_lf0el"]
 [ext_resource type="Texture2D" uid="uid://doq55a52a1gfc" path="res://assets/textures/gamebackground.png" id="10_suv0k"]
 [ext_resource type="Texture2D" uid="uid://cqdq83biruyv1" path="res://assets/textures/desk.png" id="11_0odt2"]
@@ -17,51 +13,7 @@ script = ExtResource("1_bhm4d")
 
 [node name="ui" type="CanvasLayer" parent="."]
 
-[node name="Time" type="Sprite2D" parent="ui"]
-position = Vector2(1796.4, 102.2)
-scale = Vector2(1e-05, 1e-05)
-texture = ExtResource("5_b3mxb")
-
-[node name="Multiplier" type="Sprite2D" parent="ui/Time"]
-scale = Vector2(0.345, 0.345)
-
-[node name="plus" type="Button" parent="ui/Time/Multiplier"]
-offset_left = 140.0
-offset_top = -90.0
-offset_right = 162.0
-offset_bottom = -59.0
-scale = Vector2(9.13707, 6.42043)
-text = "+"
-script = ExtResource("6_saq0m")
-
-[node name="minus" type="Button" parent="ui/Time/Multiplier"]
-offset_left = -344.348
-offset_top = -93.3333
-offset_right = -327.348
-offset_bottom = -62.3333
-scale = Vector2(11.6138, 6.54385)
-text = "-"
-script = ExtResource("7_s2a0k")
-
-[node name="stop" type="Button" parent="ui/Time/Multiplier"]
-offset_left = -131.922
-offset_top = 105.223
-offset_right = -26.9221
-offset_bottom = 137.223
-scale = Vector2(2.52606, 2.85544)
-theme_override_fonts/font = ExtResource("4_jrcb4")
-theme_override_font_sizes/font_size = 18
-script = ExtResource("8_iye0r")
-
-[node name="Date" type="Label" parent="ui/Time"]
-offset_left = -82.4373
-offset_top = -68.2188
-offset_right = 33.5627
-offset_bottom = -45.2188
-scale = Vector2(1.35773, 1.25575)
-theme_override_fonts/font = ExtResource("4_jrcb4")
-theme_override_font_sizes/font_size = 16
-text = "21.4.753 B.C"
+[node name="PersistentUI" parent="." instance=ExtResource("2_inly4")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true

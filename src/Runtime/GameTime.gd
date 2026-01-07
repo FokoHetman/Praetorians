@@ -7,10 +7,34 @@ var hour
 var speed = 1
 var paused = true
 
+var redraw_hooks: Array[Callable] = []
+var speed_redraw_hooks: Array[Callable] = []
+var state_redraw_hooks: Array[Callable] = []
+
+func inc():
+	if speed >= 5:
+		return
+	speed += 1
+
+	for i in speed_redraw_hooks:
+		i.call(speed)
+
+func dec():
+	if speed <= 1:
+		return
+	speed -= 1
+
+	for i in speed_redraw_hooks:
+		i.call(speed)
+
 func set_playing(b):
 	self.paused = b
+	for i in state_redraw_hooks:
+		i.call(paused)
 func toggle():
 	self.paused = not paused
+	for i in state_redraw_hooks:
+		i.call(paused)
 
 func format() -> String:
 	var era = "A.C"
@@ -52,24 +76,25 @@ func _init(g_year,g_day,g_hour):
 	day = g_day
 	hour = g_hour
 	
-var default_multiplier = 6
+var default_multiplier = 5
 
 func _ready():
 	var tick_count = 0
 	while true:
-		await wait(1.0/(speed*default_multiplier))
+		await wait(1.0/(default_multiplier**(speed**speed)))
 		tick_count += 1
 		# print('tick ', tick_count)
 		if !paused:
-			hour+=speed * default_multiplier
+			hour+=1
 			if hour>24:
 				day+=1
-				hour = 1
-			if day>365:
+				hour = 0
+			if (is_leap(year) and day>366) or (not is_leap(year) and day>365):
 				year+=1
 				day = 1
 			hour+=speed
-
+			for i in redraw_hooks:
+				i.call(format())
 func wait(seconds: float) -> void:
 	if get_tree() != null:
 		await get_tree().create_timer(seconds).timeout

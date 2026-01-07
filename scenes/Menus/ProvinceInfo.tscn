@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://8wdvj4akktfl"]
 
-[ext_resource type="Script" uid="uid://4fe2evd7dokr" path="res://src/Master/Menus/ProvinceInfo.gd" id="1_cqd1b"]
+[ext_resource type="Script" uid="uid://4fe2evd7dokr" path="res://src/Master/UI/Menus/ProvinceInfo.gd" id="1_cqd1b"]
 [ext_resource type="Texture2D" uid="uid://d2ebreix53ohw" path="res://assets/textures/tablica_temp.png" id="2_cqd1b"]
 [ext_resource type="FontFile" uid="uid://dqpibld1vkda" path="res://assets/DaysOne.ttf" id="3_07gbn"]
 

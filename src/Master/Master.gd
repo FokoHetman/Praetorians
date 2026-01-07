@@ -89,7 +89,6 @@ func disintegrate(pos):
 	return pos + Vector2((randi()% 20-2)*10, (randi()% 20-2)*10)
 
 func _ready():
-	commons.set_resolution(Vector2(480, 360))
 	#$ui.position.x = get_viewport().size.x - 0.1*get_viewport().size.x
 	#$ui.position.y = get_viewport().size.y - 0.9*get_viewport().size.y
 	#$ui.scale.x = get_viewport().size.x / 1920 * $ui/Time.scale.x
@@ -281,12 +280,6 @@ func redraw_gametime():
 			object.position = box_pos
 			$States.add_child(object)
 			print(object)
-
-
-# this is dumb.
-func _process(delta):
-	if time:
-		$ui/Time/Date.text = time.format()
 
 var current_menu = null
 
