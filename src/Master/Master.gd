@@ -20,7 +20,8 @@ var select_color = Color.from_hsv(45/360, 75/360, 96/360, 1)
 var game_size = Vector2(0.226, 0.308)
 
 
-var time = load("res://src/Runtime/GameTime.gd").new(-753,111,0)
+var time = GameTime.new(-753,111,0)
+var event_handler = EventHandler.new(time)
 
 var commons = load("res://src/utils/commons.gd")
 

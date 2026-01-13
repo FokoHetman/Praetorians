@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://dnw1yufnvw2n8"]
+[gd_scene load_steps=9 format=3 uid="uid://dnw1yufnvw2n8"]
 
 [ext_resource type="Script" uid="uid://crgthsu2a8opi" path="res://src/Master/UI/PersistentUI.gd" id="1_mq1mv"]
 [ext_resource type="Script" uid="uid://btg2saba66dn7" path="res://src/Master/UI/PersistentUI/TimeUI.gd" id="2_nbjcu"]
 [ext_resource type="Texture2D" uid="uid://yv1htub45aup" path="res://assets/textures/tablica/roman_1.png" id="2_rm6ky"]
 [ext_resource type="Script" uid="uid://mmly6v3k5d3l" path="res://src/Extendo/PathText.gd" id="4_mq1mv"]
 [ext_resource type="FontFile" uid="uid://dqpibld1vkda" path="res://assets/DaysOne.ttf" id="5_bhi8i"]
+[ext_resource type="Texture2D" uid="uid://ddgx2myojfems" path="res://assets/textures/Menus/council.png" id="6_rm6ky"]
 
 [sub_resource type="Curve2D" id="Curve2D_mq1mv"]
 _data = {
@@ -77,16 +78,31 @@ offset_bottom = 205.0
 offset_right = 241.0
 offset_bottom = 358.0
 
-[node name="Tabs" type="VBoxContainer" parent="."]
+[node name="Tabs" type="Node" parent="."]
+
+[node name="tab" type="Polygon2D" parent="Tabs"]
+position = Vector2(0, 289)
+color = Color(0.790067, 0.225502, 0.0961946, 1)
+polygon = PackedVector2Array(0, 0, 120, 40, 120, 966, 0, 1006)
+
+[node name="Tabs" type="VBoxContainer" parent="Tabs"]
 offset_top = 289.0
-offset_right = 87.0
+offset_right = 90.0
 offset_bottom = 1295.0
 alignment = 1
 
-[node name="Trade" type="TextureButton" parent="Tabs"]
+[node name="Council" type="TextureButton" parent="Tabs/Tabs"]
+layout_mode = 2
+texture_normal = ExtResource("6_rm6ky")
+
+[node name="Resources2" type="Container" parent="."]
+offset_right = 1678.0
+offset_bottom = 61.0
+
+[node name="Resources" type="HBoxContainer" parent="Resources2"]
 layout_mode = 2
 
-[node name="Resources" type="HBoxContainer" parent="."]
-offset_left = 241.0
-offset_right = 1474.0
-offset_bottom = 52.0
+[node name="tab" type="Polygon2D" parent="Resources2"]
+position = Vector2(241, 0)
+color = Color(0.790067, 0.225502, 0.0961946, 1)
+polygon = PackedVector2Array(0, 0, 1235, 0, 1200, 60, 35, 60)
