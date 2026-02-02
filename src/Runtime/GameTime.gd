@@ -96,6 +96,8 @@ func hour_ticker():
 	if (is_leap(year) and day>366) or (not is_leap(year) and day>365):
 		year+=1
 		day = 1
+		if year==0:
+			year=1
 	redraw.emit(format())
 
 

@@ -222,8 +222,8 @@ func define_countries():
 
 	var romulus_family = Family.new("Mars")
 	var king = Character.new("Romulus", "", romulus_family, [], 1)
-
 	var rome = Country.new(1, king, [loyalists])
+	###get_tree().root.get_node("Player").become(king)
 	king.country = rome
 
 	state_from_id(7).governor = king

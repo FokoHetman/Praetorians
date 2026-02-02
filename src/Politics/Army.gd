@@ -76,4 +76,4 @@ func aggressive(character):
 	return false
 
 func controllable_by(character):
-	return character == leader or loyalty in character.factions
+	return character == leader or (character!=null and loyalty in character.factions)
