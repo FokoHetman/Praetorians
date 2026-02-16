@@ -7,7 +7,7 @@ var scheduled = []
 
 func _init(time):
 	self.time = time
-	self.time.daytick_passed.connect(daytick)
+	self.time.daytick.connect(daytick)
 
 func daytick(tick): # each day
 	for i in range(len(scheduled)):

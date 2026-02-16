@@ -27,12 +27,9 @@ func _input_event(vp, event, sidx):
 				print("hi")
 				if not player:
 					return
-				var old_selected_units = player.selected_units.map(func(x): x)
+				var old_units = player.selected_units.map(func(x): x)
 				player.selected_units = []
-				for i in old_selected_units:
-					i.queue_free(i.display_object)
-					i.display_object = i.generate_display_object()
-					get_parent().add_child(i.display_object)
-
+				for i in old_units:
+					i.update_color(player.character)
 func _ready():
 	self.input_pickable = true

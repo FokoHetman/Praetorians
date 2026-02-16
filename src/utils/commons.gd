@@ -25,6 +25,7 @@ const MenuScenes = [
 	, preload("res://scenes/Menus/ProvinceInfo.tscn")
 	, preload("res://scenes/Menus/CountryInfo.tscn") # doesn't exist yet
 ]
+
 func getType(kind):
 	match kind:
 		BUILDING_KIND.RIVER:

@@ -10,7 +10,6 @@ var character = null
 
 func become(character):
 	self.character = character
-	self.character.is_player = true
 
 func _init():
 	print("PLAYER")

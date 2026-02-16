@@ -94,8 +94,6 @@ func _ready():
 	#$ui.position.y = get_viewport().size.y - 0.9*get_viewport().size.y
 	#$ui.scale.x = get_viewport().size.x / 1920 * $ui/Time.scale.x
 	#$ui.scale.y = get_viewport().size.y / 1080 * $ui/Time.scale.y
-	var player_scene = load("res://scenes/Player.tscn").instantiate()
-	get_tree().root.add_child.call_deferred(player_scene)
 	savedCameraPos = $Camera2D.position
 	defaultCameraPosition = savedCameraPos
 	savedCameraZoom = $Camera2D.zoom
@@ -106,7 +104,7 @@ func _ready():
 	add_child(time)
 	toggleView(commons.VIEWS.MAP)
 	define_states()
-	define_countries()
+	define_countries(time)
 
 
 func toggleMap(): # not actually a toggle
@@ -217,19 +215,22 @@ func state_from_id(id: int):
 	for i in states:
 		if i.id == id:
 			return i
-func define_countries():
+func define_countries(time):
 	var loyalists = Faction.new(1, [])
 
 	var romulus_family = Family.new("Mars")
 	var king = Character.new("Romulus", "", romulus_family, [], 1)
-	var rome = Country.new(1, king, [loyalists])
+	var rome = Country.new(1, time, king, [loyalists])
 	###get_tree().root.get_node("Player").become(king)
 	king.country = rome
+	var player_scene = load("res://scenes/Player.tscn").instantiate()
+	player_scene.become(king)
+	get_tree().root.add_child.call_deferred(player_scene)
 
 	state_from_id(7).governor = king
 	rome.create_legion(state_from_id(7), rome.factions[0], 
-		[Cohort.new(commons.COHORT_TYPES.INFANTRY, Vector2(10, 10)), Cohort.new(commons.COHORT_TYPES.INFANTRY, Vector2(-10, 10)), 
-		 Cohort.new(commons.COHORT_TYPES.ARCHERS, Vector2(10, -10)), Cohort.new(commons.COHORT_TYPES.ARCHERS, Vector2(-10, -10))])
+		[Cohort.new(commons.COHORT_TYPES.INFANTRY, Vector2(10, 10), time), Cohort.new(commons.COHORT_TYPES.INFANTRY, Vector2(-10, 10), time), 
+		 Cohort.new(commons.COHORT_TYPES.ARCHERS, Vector2(10, -10), time), Cohort.new(commons.COHORT_TYPES.ARCHERS, Vector2(-10, -10), time)])
 	countries.append(rome)
 	redraw_gametime()
 	#utils.get_stance(loyalists, loyalists)

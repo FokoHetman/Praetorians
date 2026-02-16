@@ -15,7 +15,6 @@ var factions
 # the COUNTRY that the character  pledges loyalty to.
 var country
 
-
 func _init(character_name, surname, family, factions, country):
 	self.character_name = character_name
 	self.surname = surname

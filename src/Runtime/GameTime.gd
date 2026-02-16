@@ -9,7 +9,8 @@ var hour
 var speed = 1
 var paused = true
 
-signal daytick_passed
+signal hourtick
+signal daytick
 signal redraw
 signal speed_redraw
 signal state_redraw
@@ -89,8 +90,9 @@ func _process(d):
 func hour_ticker():
 	VNIX_ROMANVM += 1
 	hour+=1
+	hourtick.emit(VNIX_ROMANVM)
 	if hour>24:
-		daytick_passed.emit(VNIX_ROMANVM)
+		daytick.emit(VNIX_ROMANVM)
 		day+=1
 		hour = 0
 	if (is_leap(year) and day>366) or (not is_leap(year) and day>365):

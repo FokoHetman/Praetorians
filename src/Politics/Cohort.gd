@@ -7,24 +7,32 @@ var type
 
 var parent
 
+var attached = true
+
 var centurias
+
+var time
 
 var display_object
 
 var position # relative to legion's root
 var destination #WARNING: this is GLOBAL destination position, it doesn't account parents' position.
 
-func _init(type, position, centurias = null):
+func _init(type, position, time, centurias = null):
 	self.type=type
 	self.position = position
+	self.time = time
 	if centurias:
 		self.centurias = centurias
 	else:
 		self.centurias = default_centurias()
 	print("CENTURIAS: ", default_centurias())
+	self.time.hourtick.connect(Callable(tick))
 
+func tick(_n):
+	pass
 func default_centurias():
-	return range(6).map(func(_void): return Centuria.new())
+	return range(6).map(func(_void): return Centuria.new(self.time))
 
 # leader is the most experienced centurion.
 func get_leader():
@@ -32,16 +40,22 @@ func get_leader():
 	centurias.map(func(c): c.centurion).filter(func(c): return c.centurion.history.battles==max(experiences))[0]
 
 func generate_display_object(perspective: Character):
-	var color_obj = Polygon2D.new()
-	color_obj.set_polygon(PackedVector2Array(commons.rounded_square)) # cool rounded sqwuare
-	color_obj.scale = Vector2(0.75, 0.75)
-	color_obj.offset = - 0.75 * utils.get_center(commons.rounded_square)/5
+	self.display_object = Polygon2D.new()
+	self.display_object.set_polygon(PackedVector2Array(commons.rounded_square)) # cool rounded sqwuare
+	self.display_object.scale = Vector2(0.75, 0.75)
+	self.display_object.offset = - 0.75 * utils.get_center(commons.rounded_square)/5
+	self.update_color(perspective)
+	return self.display_object
+
+
+func update_color(perspective: Character):
+	if self in get_node("/root/Player").selected_units:
+		self.display_object.color = Color.WHITE
 	if parent.controllable_by(perspective):
-		color_obj.color = Color.WEB_GREEN
+		self.display_object.color = Color.WEB_GREEN
 	elif parent.allied(perspective):
-		color_obj.color = Color.BLUE
+		self.display_object.color = Color.BLUE
 	elif parent.aggressive(perspective):
-		color_obj.color = Color.DARK_RED
+		self.display_object.color = Color.DARK_RED
 	else:
-		color_obj.color = Color.DIM_GRAY
-	return color_obj
+		self.display_object.color = Color.DIM_GRAY

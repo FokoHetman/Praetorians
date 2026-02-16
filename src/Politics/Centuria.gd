@@ -12,6 +12,10 @@ var columns = 8
 
 var parent
 
+var time
+
+var attached = true
+
 var display_object
 
 var manpower = rows * columns
@@ -20,7 +24,7 @@ var support  = floor(manpower/4) # non-combatant auxillia within the centuria
 var position
 var destination #WARNING: this is GLOBAL destination position, it doesn't account parents' position.
 
-func _init(ccenturion=null, ooptio=null, pparent=null):
+func _init(time, ccenturion=null, ooptio=null, pparent=null):
 	if pparent:
 		self.parent = pparent
 	if ccenturion:
@@ -31,7 +35,11 @@ func _init(ccenturion=null, ooptio=null, pparent=null):
 		self.optio = ooptio
 	else:
 		self.optio = Character.random_military()
+	self.time = time
+	self.time.hourtick.connect(Callable(tick))
 
+func tick(_n):
+	pass
 func ch_leader(new_leader: Character):
 	centurion = new_leader
 	
@@ -41,6 +49,10 @@ func generate_display_object(perspective: Character):
 	self.display_object.set_polygon(PackedVector2Array(commons.rounded_square)) # cool rounded sqwuare
 	self.display_object.scale = Vector2(0.75, 0.75)
 	self.display_object.offset = - 0.75 * utils.get_center(commons.rounded_square)/5
+	self.update_color(perspective)
+	return self.display_object
+
+func update_color(perspective: Character):
 	if self in get_node("/root/Player").selected_units:
 		self.display_object.color = Color.WHITE
 	if parent.parent.controllable_by(perspective):
@@ -51,4 +63,3 @@ func generate_display_object(perspective: Character):
 		self.display_object.color = Color.DARK_RED
 	else:
 		self.display_object.color = Color.DIM_GRAY
-	return self.display_object
