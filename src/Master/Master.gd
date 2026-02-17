@@ -101,7 +101,7 @@ func _ready():
 	TranslationServer.set_locale(preferred_language)
 
 	time.name = 'GameTime'
-	add_child(time)
+	get_tree().root.add_child(time)
 	toggleView(commons.VIEWS.MAP)
 	define_states()
 	define_countries(time)
@@ -220,20 +220,25 @@ func define_countries(time):
 
 	var romulus_family = Family.new("Mars")
 	var king = Character.new("Romulus", "", romulus_family, [], 1)
-	var rome = Country.new(1, time, king, [loyalists])
-	###get_tree().root.get_node("Player").become(king)
+	var rome = Country.new(1, king, [loyalists])
 	king.country = rome
+
 	var player_scene = load("res://scenes/Player.tscn").instantiate()
 	player_scene.become(king)
 	get_tree().root.add_child.call_deferred(player_scene)
 
 	state_from_id(7).governor = king
-	rome.create_legion(state_from_id(7), rome.factions[0], 
-		[Cohort.new(commons.COHORT_TYPES.INFANTRY, Vector2(10, 10), time), Cohort.new(commons.COHORT_TYPES.INFANTRY, Vector2(-10, 10), time), 
-		 Cohort.new(commons.COHORT_TYPES.ARCHERS, Vector2(10, -10), time), Cohort.new(commons.COHORT_TYPES.ARCHERS, Vector2(-10, -10), time)])
 	countries.append(rome)
 	redraw_gametime()
-	#utils.get_stance(loyalists, loyalists)
+	
+	var u = Unit.new("Centuria",
+		[ InfantyLine.new(), InfantyLine.new(), InfantyLine.new(), InfantyLine.new(), InfantyLine.new()
+		, InfantyLine.new(), InfantyLine.new(), InfantyLine.new(), InfantyLine.new(), InfantyLine.new()]
+		, Unit.Pattern.Checkboard, 2)
+	#u.set_culture(Commons.Culture.Roman) # ?
+	$DynamicObjects.add_child(u)
+	u.leader = king
+	u.renderPerspective(king)
 
 func _input(event) -> void:
 	if event is InputEventMouseMotion:

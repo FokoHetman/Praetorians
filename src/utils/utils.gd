@@ -1,7 +1,6 @@
 @tool
 extends Node
-
-var commons = load("res://src/utils/commons.gd")
+class_name Utils
 
 
 func correctify(position, arr) -> Array:
@@ -69,7 +68,7 @@ func intersect(l1, l2):
 			l3.append(i)
 	return l3
 
-
+'''
 # If the character controlling leaves the country (joins another country) - army stays, the character stops controlling the army.
 # If the character is in a revolting faction, the army follows him.
 # Considering the above rules, stance is calculated from character's faction wars + the country's wars.
@@ -79,13 +78,24 @@ func get_stance(army1, army2):
 		# check if their leaders are fighting against themselves in a civil war
 		for i in army2.leader.factions:
 			if len(intersect(army1.leader.factions, i.wars))>0:
-				return commons.STANCE.AGGRESSIVE
-		return commons.STANCE.ALLIED
+				return Commons.STANCE.AGGRESSIVE
+		return Commons.STANCE.ALLIED
 	else:
 		if army2.country in army1.country.wars:
-			return commons.STANCE.AGGRESSIVE
-	return commons.STANCE.NEUTRAL
+			return Commons.STANCE.AGGRESSIVE
+	return Commons.STANCE.NEUTRAL
+'''
+func get_stance(ch1: Character, ch2: Character) -> Commons.STANCE:
+	if ch1.country == ch2.country:
+		for i in ch1.factions:
+			if len(Utils.new().intersect(ch2.factions, i.wars))>0:
+				return Commons.STANCE.AGGRESSIVE
+		return Commons.STANCE.ALLIED
+	else:
+		return Commons.STANCE.NEUTRAL
 
+func controllable_by(unit: Unit, character: Character) -> bool:
+	return character == unit.leader or (character!=null and unit.loyalty in character.factions)
 
 func _ready():
 	pass 

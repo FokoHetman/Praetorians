@@ -1,5 +1,5 @@
 extends Node
-
+class_name Commons
 ### probably move this stuff to a data file
 const default_state_color = Color (1, 1, 1, 0.2)
 const hover_color = Color(1, 1, 1, 0.6)
