@@ -2,12 +2,10 @@ extends Node
 class_name EventHandler
 
 
-var time: GameTime = null
 var scheduled = []
 
-func _init(time):
-	self.time = time
-	self.time.daytick.connect(daytick)
+func _ready():
+	get_node("/root/Map/GameTime").daytick.connect(daytick)
 
 func daytick(tick): # each day
 	for i in range(len(scheduled)):

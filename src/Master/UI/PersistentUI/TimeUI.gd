@@ -1,15 +1,13 @@
 extends Container
 
-var time: GameTime
-
 func _ready():
-	self.time = get_node("/root/Map").time
+	var time = get_node("/root/Map/GameTime")
 	$Texture/Inc.connect("button_up", Callable(time.inc))
 	$Texture/Dec.connect("button_up", Callable(time.dec))
 	$Texture/State.connect("button_up", Callable(time.toggle))
-	self.time.redraw.connect(Callable(update))
-	self.time.speed_redraw.connect(Callable(update_texture))
-	self.time.state_redraw.connect(Callable(update_state))
+	time.redraw.connect(Callable(update))
+	time.speed_redraw.connect(Callable(update_texture))
+	time.state_redraw.connect(Callable(update_state))
 	update_state(true)
 
 func update(x):

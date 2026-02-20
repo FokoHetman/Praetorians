@@ -19,12 +19,7 @@ var border_color = Color.from_hsv(32/360, .41, .39, 1)
 var select_color = Color.from_hsv(45/360, 75/360, 96/360, 1)
 var game_size = Vector2(0.226, 0.308)
 
-
-var time = GameTime.new(-753,111,0)
-var event_handler = EventHandler.new(time)
-
 var commons = load("res://src/utils/commons.gd")
-
 var view
 
 # probably make it per country-ish?
@@ -89,22 +84,27 @@ func _draw() -> void:
 func disintegrate(pos):
 	return pos + Vector2((randi()% 20-2)*10, (randi()% 20-2)*10)
 
+func _init():
+	var time = GameTime.new(-753,111,0)
+	time.name = "GameTime"
+	var event_handler = EventHandler.new()
+	event_handler.name = "GameTime"
+	add_child(time)
+	add_child(event_handler)
 func _ready():
-	#$ui.position.x = get_viewport().size.x - 0.1*get_viewport().size.x
-	#$ui.position.y = get_viewport().size.y - 0.9*get_viewport().size.y
-	#$ui.scale.x = get_viewport().size.x / 1920 * $ui/Time.scale.x
-	#$ui.scale.y = get_viewport().size.y / 1080 * $ui/Time.scale.y
 	savedCameraPos = $Camera2D.position
 	defaultCameraPosition = savedCameraPos
 	savedCameraZoom = $Camera2D.zoom
 	var preferred_language = OS.get_locale_language()
 	TranslationServer.set_locale(preferred_language)
 
-	time.name = 'GameTime'
-	get_tree().root.add_child(time)
+	var cmh = ContextMenuHandler.new()
+	cmh.name = "ContextMenuHandler"
+	add_child(cmh)
+
 	toggleView(commons.VIEWS.MAP)
 	define_states()
-	define_countries(time)
+	define_countries()
 
 
 func toggleMap(): # not actually a toggle
@@ -215,7 +215,7 @@ func state_from_id(id: int):
 	for i in states:
 		if i.id == id:
 			return i
-func define_countries(time):
+func define_countries():
 	var loyalists = Faction.new(1, [])
 
 	var romulus_family = Family.new("Mars")
@@ -231,26 +231,28 @@ func define_countries(time):
 	countries.append(rome)
 	redraw_gametime()
 	
+	var i: Unit = SimpleUnit.new(5,"unit.infantry")
+	var l: Array[Unit] = [i,i.duplicate(),i.duplicate(),i.duplicate(),i.duplicate(),i.duplicate(),i.duplicate(),i.duplicate(),i.duplicate(),i.duplicate()]
+	print(len(l))
 	var u = Unit.new("Centuria",
-		[ InfantyLine.new(), InfantyLine.new(), InfantyLine.new(), InfantyLine.new(), InfantyLine.new()
-		, InfantyLine.new(), InfantyLine.new(), InfantyLine.new(), InfantyLine.new(), InfantyLine.new()]
-		, Unit.Pattern.Checkboard, 2)
+		l
+		, Unit.Pattern.Checkboard, 4)
+	u.leader = king
 	#u.set_culture(Commons.Culture.Roman) # ?
 	$DynamicObjects.add_child(u)
-	u.leader = king
 	u.renderPerspective(king)
 
 func _input(event) -> void:
 	if event is InputEventMouseMotion:
 		#print("hover")
 		reset_hover()
-	
+
 	if Input.is_action_just_pressed("ui_cancel"):
 		if current_menu:
 			exitCurrentMenu()
 		else:
 			camera_locked = true
-			time.set_playing(false)
+			$GameTime.set_playing(false)
 			toggleMenu(commons.Menus.Pause)
 
 func reset_selection():
@@ -292,7 +294,10 @@ var current_menu = null
 
 func renderMenu(menu, target=null):
 	match menu.menutype:
-		commons.Menus.CountryInfo, commons.Menus.ProvinceInfo:
+		commons.Menus.CountryInfo, commons.Menus.CharacterInfo, commons.Menus.UnitInfo:
+			menu.offset = Vector2(135, 240)
+			menu.render(target)
+		commons.Menus.ProvinceInfo:
 			menu.render(target)
 		commons.Menus.Pause:
 			menu.render()
@@ -311,7 +316,7 @@ func toggleMenu(menutype, target=null):
 		else:
 			exitCurrentMenu()
 	match menutype:
-		commons.Menus.CountryInfo, commons.Menus.ProvinceInfo:
+		commons.Menus.CountryInfo, commons.Menus.ProvinceInfo, commons.Menus.CharacterInfo, commons.Menus.UnitInfo:
 			assert(target!=null)
 			var new_menu = commons.MenuScenes[menutype].instantiate()
 			$ui.add_child(new_menu)

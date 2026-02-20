@@ -99,3 +99,7 @@ func controllable_by(unit: Unit, character: Character) -> bool:
 
 func _ready():
 	pass 
+
+func compose(f: Callable, g: Callable):
+	f.call()
+	g.call()

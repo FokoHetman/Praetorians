@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://dj6dkk2x7r651"]
+
+[ext_resource type="Script" uid="uid://dejm83isk6cm6" path="res://src/Master/UI/Menus/UnitInfo.gd" id="1_2q6ay"]
+[ext_resource type="Texture2D" uid="uid://bqnqhlx3yuqbn" path="res://assets/textures/Menus/CountryInfoPanel.png" id="2_pfvc4"]
+[ext_resource type="Theme" uid="uid://c8mfupqjxy8lk" path="res://assets/themes/BlackText.tres" id="3_bevf4"]
+
+[node name="CharacterInfo" type="CanvasLayer"]
+script = ExtResource("1_2q6ay")
+metadata/_custom_type_script = "uid://d1hxjs13jtcuf"
+
+[node name="CharacterInfoPanel" type="Sprite2D" parent="."]
+position = Vector2(358, 720)
+texture = ExtResource("2_pfvc4")
+
+[node name="Labels" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 43.0
+offset_bottom = 43.0
+
+[node name="Name" type="Label" parent="Labels"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 22.0
+offset_right = 68.0
+offset_bottom = 45.0
+theme = ExtResource("3_bevf4")

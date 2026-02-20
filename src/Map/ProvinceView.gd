@@ -14,9 +14,11 @@ func redraw():
 	print("redrawing...")
 	print(province.getID())
 	queue_redraw()
+	### TODO:
 	for i in province.buildings:
-		if i.display_obj():
-			add_child(i.display_obj())
+		var d = i.display_obj()
+		if d:
+			add_child(d)
 
 const mult = 35
 
@@ -46,7 +48,7 @@ func _input(event):
 				var loc = get_local_mouse_position()
 				print(loc)
 				for i in get_node("/root/Player").selected_units:
-					i.destination = loc
+					i.destinations.append(loc)
 			
 func _ready():
 	var vp = get_viewport().size

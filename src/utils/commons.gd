@@ -18,12 +18,14 @@ enum BUILDING_TYPE {NATURAL, ARTIFICIAL}
 enum BUILDING_KIND {PORT, WALL, BLACKSMITH, RIVER, MOUNTAIN}
 
 ### those are EXCLUSIVE menus, meaning only one can be opened at the same time. For Static UI Elements use Master, for popups spawn them individually.
-enum Menus {Pause,CountryInfo,ProvinceInfo,MissionTree}
+enum Menus {Pause,CountryInfo,ProvinceInfo,MissionTree,CharacterInfo,UnitInfo}
 const MenuScenes = [
 	  preload("res://scenes/Menus/Pause.tscn")
 	, preload("res://scenes/Menus/CountryInfo.tscn")
 	, preload("res://scenes/Menus/ProvinceInfo.tscn")
-	, preload("res://scenes/Menus/CountryInfo.tscn") # doesn't exist yet
+	, preload("res://scenes/Menus/MissionTree.tscn")
+	, preload("res://scenes/Menus/CharacterInfo.tscn")
+	, preload("res://scenes/Menus/UnitInfo.tscn")
 ]
 
 func getType(kind):
@@ -40,7 +42,7 @@ enum ARMY_TYPES {LEGION, LEVY}
 enum COHORT_TYPES {ARCHERS,INFANTRY,CAVALRY}
 enum STANCE {AGGRESSIVE, NEUTRAL, ALLIED}
 
-const rounded_square = [Vector2(2,0), Vector2(18,0), Vector2(20, 2), Vector2(20, 8), Vector2(18, 10), Vector2(2, 10), Vector2(0, 8), Vector2(0,2)]
+const rounded_square = [Vector2(2,0), Vector2(18,0), Vector2(20, 2), Vector2(20, 18), Vector2(18, 20), Vector2(2, 20), Vector2(0, 18), Vector2(0,2)]
 
 const resolutions = [Vector2(2560,1440),Vector2(1920,1080),Vector2(1280,720)]
 # resolution should be possible to be made anything, in case of weird devices. Above list is only "recommended" values.
@@ -57,3 +59,11 @@ func set_resolution(res: Vector2 = resolutions[default_resolution]) -> void:
 	get_window().position = Vector2((DisplayServer.screen_get_size().x-get_window().size.x)/2,(DisplayServer.screen_get_size().y-get_window().size.y)/2)
 func set_resolution_str(s: String):
 	set_resolution(resolutionFromStr(s))
+
+
+const DynamicObjects = "/root/Map/DynamicObjects"
+const GameTime = "/root/Map/GameTime"
+const Camera = "/root/Map/Camera2D"
+const Player = "/root/Player"
+const ContextMenuHandler = "/root/Map/ContextMenuHandler"
+const GameRoot = "/root/Map"

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cu8tob50kf0oi"]
+
+[ext_resource type="Script" uid="uid://d1hxjs13jtcuf" path="res://src/Master/Menu.gd" id="1_s4ixk"]
+
+[node name="MissionTree" type="CanvasLayer"]
+script = ExtResource("1_s4ixk")
+metadata/_custom_type_script = "uid://d1hxjs13jtcuf"

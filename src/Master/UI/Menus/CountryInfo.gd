@@ -7,3 +7,4 @@ func _ready():
 
 func render(target: Country):
 	self.target = target
+	$Labels/Name.text = tr("COUNTRY." + str(target.id))

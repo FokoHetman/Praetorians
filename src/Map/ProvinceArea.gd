@@ -6,7 +6,6 @@ func _init():
 	pass
 # used for handling clickable units
 func _input_event(vp, event, sidx):
-	print("unit event!")
 	if (event is InputEventMouseButton && event.pressed):
 		var player = get_node("/root/Player")
 		match event.button_index:
@@ -23,13 +22,15 @@ func _input_event(vp, event, sidx):
 					print(get_local_mouse_position())
 				print(player.selected_units)
 			MOUSE_BUTTON_LEFT:
-				# deselect all units, I think
+				# deselect all units
 				print("hi")
 				if not player:
 					return
-				var old_units = player.selected_units.map(func(x): x)
+				var old_units = player.selected_units.duplicate(false)
+				print(old_units)
 				player.selected_units = []
+				print(old_units)
 				for i in old_units:
-					i.update_color(player.character)
+					i.renderPerspective(player.character)
 func _ready():
 	self.input_pickable = true

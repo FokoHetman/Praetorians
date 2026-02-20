@@ -25,6 +25,8 @@ var mode = commons.VIEWS.MAP
 
 var border_size = 25
 
+signal zoom_changed(new_zoom)
+
 func _process(delta):
 	update_lims()
 	match get_node("/root/Map").view:
@@ -52,8 +54,10 @@ func _process(delta):
 				acceleration = clamp(acceleration + slowness*delta, acceleration, max_acc)
 			if zoom.x==clamp(zoom.x-acceleration*speed, min_zoom, max_zoom) or zoom.y==clamp(zoom.y-acceleration*speed, min_zoom, max_zoom): #resetting acceleration on reaching max
 				acceleration=0
+			var old_zoom := zoom
 			zoom = Vector2(clamp(zoom.x-acceleration*speed, min_zoom, max_zoom), clamp(zoom.y-acceleration*speed, min_zoom, max_zoom))
-			
+			if zoom != old_zoom:
+				zoom_changed.emit(zoom)
 			if Input.is_action_pressed("ui_down"):
 				position = position.move_toward(position + Vector2(0, 50), d_speed / zoom.x * delta * 100)
 			if Input.is_action_pressed("ui_up"):

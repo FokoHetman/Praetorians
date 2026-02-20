@@ -29,11 +29,11 @@ func dec():
 	speed_redraw.emit(speed)
 
 func set_playing(b):
-	self.paused = b
-	state_redraw.emit(paused)
+	self.paused = not b
+	state_redraw.emit(self.paused)
 func toggle():
-	self.paused = not paused
-	state_redraw.emit(paused)
+	self.paused = not self.paused
+	state_redraw.emit(self.paused)
 
 func format() -> String:
 	var era = "A.C"
@@ -81,17 +81,18 @@ var default_multiplier = 5
 var ticker = 0.0
 const SPEEDS = [4, 24, 336, 1440, 4320]
 func _process(d):
-	if !paused:
+	if !self.paused:
 		ticker += d * SPEEDS[speed-1]
 		while ticker >= 1.0:
 			ticker -= 1.0
 			hour_ticker()
 
 func hour_ticker():
+	
 	VNIX_ROMANVM += 1
 	hour+=1
 	hourtick.emit(VNIX_ROMANVM)
-	if hour>24:
+	if hour>=24:
 		daytick.emit(VNIX_ROMANVM)
 		day+=1
 		hour = 0

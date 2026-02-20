@@ -81,7 +81,7 @@ offset_bottom = 358.0
 [node name="Tabs" type="Node" parent="."]
 
 [node name="tab" type="Polygon2D" parent="Tabs"]
-position = Vector2(0, 289)
+position = Vector2(0, 290)
 color = Color(0.790067, 0.225502, 0.0961946, 1)
 polygon = PackedVector2Array(0, 0, 120, 40, 120, 966, 0, 1006)
 
