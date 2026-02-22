@@ -24,13 +24,13 @@ const mult = 35
 
 func draw_state(state):
 	var center = utils.get_center(state.curves)
-	var last_line = Vector2(-center.x, -center.y) * mult
+	var last_line = -center * mult
 	print(center)
 	for line in state.curves:
 		var color = border_color
 		draw_line(last_line, last_line+line*mult, color, border_line_width)
 		last_line = last_line+line*mult
-	draw_line(last_line, Vector2(-center.x, -center.y)*mult, border_color, border_line_width)
+	draw_line(last_line, -center*mult, border_color, border_line_width)
 	print("Drawn: ", state.id)
 func _draw() -> void:
 	if province:

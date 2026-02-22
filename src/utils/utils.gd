@@ -7,8 +7,8 @@ func correctify(position, arr) -> Array:
 	var last_val = position
 	var n_arr = [last_val]
 	for i in arr:
-		n_arr.append(last_val+i)
 		last_val = last_val+i
+		n_arr.append(last_val)
 	return n_arr
 func map_pos(position, arr) -> Array:
 	var n_arr = []
@@ -85,6 +85,19 @@ func get_stance(army1, army2):
 			return Commons.STANCE.AGGRESSIVE
 	return Commons.STANCE.NEUTRAL
 '''
+
+func get_perspective_color(unit: Unit, perspective: Character):
+	if controllable_by(unit, perspective):
+		return Color.WEB_GREEN
+	else:
+		match Utils.new().get_stance(unit.leader, perspective):
+			Commons.STANCE.ALLIED:
+				return Color.BLUE
+			Commons.STANCE.AGGRESSIVE:
+				return Color.DARK_RED
+			Commons.STANCE.NEUTRAL:
+				return Color.DIM_GRAY
+
 func get_stance(ch1: Character, ch2: Character) -> Commons.STANCE:
 	if ch1.country == ch2.country:
 		for i in ch1.factions:

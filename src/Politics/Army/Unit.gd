@@ -1,12 +1,12 @@
 extends Node2D
 class_name Unit
 
-
 var template_name: String
 
 var master: Unit = null :
 	set(v):
 		master = v
+		master.movement.connect(follow_master_movement)
 		self.depth = master.depth + 1
 		for i in self.subunits:
 			i.depth = self.depth
@@ -29,17 +29,27 @@ var subunits: Array[Unit] = [] :
 		return subunits
 
 enum Pattern {Checkboard, Line}
-var pattern: Pattern = Pattern.Line
+var pattern: Pattern = Pattern.Line :
+	set(v):
+		pattern = v
+		reorder_subunits()
+	get():
+		return pattern
 
 var is_base = false
 
-var columns: int
+var columns: int = 5
+var offsets: Vector2  = Vector2.ZERO :
+	get():
+		return Vector2(4,4) /2**depth
 
 enum Task {Nothing, FollowMaster, AttachToMaster, GoTowardsDestination}
-var task: Task = Task.Nothing
+var task: Task = Task.FollowMaster
 
+# destinations set for the unit
 var destinations: Array[Vector2] = []
-
+# offset from master's position
+var offset: Vector2 = Vector2.ZERO
 var movement_speed: int
 
 var loyalty: Faction
@@ -50,6 +60,26 @@ var leader: Character = null :
 		if master:
 			return master.leader
 		return null
+
+func reorder_subunits():
+	var x = -offsets.x * columns/2
+	var orig = Vector2(x,0)
+	match self.pattern:
+		Pattern.Line:
+			for i in range(len(subunits)):
+				var col = i%columns
+				var ii: int = i
+				var row = ii / columns
+				subunits[i].offset = orig + Vector2(offsets.x*col, offsets.y*row)
+		Pattern.Checkboard:
+			for i in range(len(subunits)):
+				var col = i%columns
+				var ii: int = i
+				var row = ii / columns
+				var row_offset = offsets.y*row
+				if i%2 != row%2:
+					row_offset += offsets.y/2
+				subunits[i].offset = orig + Vector2(offsets.x*col, row_offset)
 
 func _init(tname: String, subunits: Array[Unit] = [], pattern: Pattern = Pattern.Line, columns: int = 5):
 	self.template_name = tname
@@ -85,9 +115,13 @@ func scale_displayed(z):
 		$Display.scale = base_scale / ratio
 		$Area.scale = base_scale / ratio
 
-func render():
-	add_child(craft_display_object())
-	add_child(craft_area())
+func render(offset=Vector2.ZERO):
+	var do = craft_display_object()
+	var area = craft_area()
+	do.position = offset
+	area.position = offset
+	add_child(do)
+	add_child(area)
 	var cam = get_node(Commons.Camera)
 	cam.zoom_changed.connect(Callable(scale_displayed))
 	#base_scale = $Display.scale
@@ -114,7 +148,7 @@ func craft_area():
 	col_shape.position = - (col_shape.scale * Utils.new().get_center(Commons.rounded_square)/5)
 	area.add_child(col_shape)
 	area.name = "Area"
-	add_child(area)
+	return area
 func craft_display_object():
 	var color_obj = Polygon2D.new()
 	color_obj.set_polygon(PackedVector2Array(Commons.rounded_square))
@@ -122,7 +156,6 @@ func craft_display_object():
 		var l: int = len(self.subunits)
 		var cols: float = self.columns
 		var rows: float = l / self.columns + ((l % self.columns > 0) as int)
-		print(cols, "x", rows, "|", l, self.template_name)
 		color_obj.scale = Vector2(max(0.1,cols / rows), max(0.1,rows / cols))
 	else:
 		color_obj.scale = Vector2(1,1)
@@ -134,70 +167,73 @@ func craft_display_object():
 func renderPerspective(perspective: Character):
 	if get_node("Display") == null:
 		self.render()
-	if Utils.new().controllable_by(self, perspective):
-		$Display.color = Color.WEB_GREEN
-	else:
-		match Utils.new().get_stance(self.leader, perspective):
-			Commons.STANCE.ALLIED:
-				$Display.color = Color.BLUE
-			Commons.STANCE.AGGRESSIVE:
-				$Display.color = Color.DARK_RED
-			Commons.STANCE.NEUTRAL:
-				$Display.color = Color.DIM_GRAY
+	$Display.color = Utils.new().get_perspective_color(self, perspective)
 
 func recalculate_speed():
 	print("! ", self.subunits.map(func(x): return x.recalculate_speed()))
 	if len(self.subunits)>0:
 		self.movement_speed = self.subunits.map(func(x): return x.recalculate_speed()).min()
 	return self.movement_speed
+
+
+
+
 func tick(_t):
+	print(task)
 	match task:
 		Task.Nothing:
 			return
-		# the 2 below might server the same purpose, I don't know
+		# the following 2 might serve the same purpose, I don't know
 		Task.AttachToMaster:
 			if self.master == null:
 				self.task = Task.Nothing
 				return
-			self.move_towards(self.master.position)
+			self.move_towards(self.master.position + self.offset)
 		Task.FollowMaster:
 			if self.master == null:
 				self.task = Task.Nothing
 				return
-			self.move_towards(self.master.position)
+			self.move_towards(self.master.position + self.offset)
 		Task.GoTowardsDestination:
 			if len(self.destinations)==0:
 				self.task = Task.Nothing
 				return
 			self.move_towards(self.destinations[0])
 
+signal movement(dp)
+
+func follow_master_movement(dp):
+	self.position += dp
 func move_towards(pos: Vector2):
 	if movement_speed == null || movement_speed == 0:
 		return
 	var paths = find_path(pos)
 	if len(paths)==0:
-		if self.task == Task.AttachToMaster:
-			self.task = Task.FollowMaster
-		elif self.task == Task.FollowMaster:
-			pass
-		else:
-			self.task = Task.Nothing
+		self.task = Task.Nothing
 		return
 	var destination = paths[0]
 	var dir = destination - self.position
 	var distance = dir.length()
 	if distance <= movement_speed:
 		self.position = destination
+		if self.task == Task.AttachToMaster:
+			self.task = Task.FollowMaster
+		else:
+			self.task = Task.Nothing
 		return
+	movement.emit(dir * movement_speed / distance)
 	self.position = self.position + dir * movement_speed / distance
 
 func find_path(pos) -> Array[Vector2]:
-	return []
+	return [pos] ### TODO: Implement a NavigationServer2D
 
 func reorganize():
 	self.task = Task.FollowMaster
 	for i in subunits:
 		i.reorganize()
+
+
+
 
 func is_selected() -> bool:
 	if not get_node(Commons.Player):

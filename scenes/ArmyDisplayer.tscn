@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cqov77lhhyim3"]
+
+[ext_resource type="Script" uid="uid://dk2vwcnqer7w1" path="res://src/Politics/Army/ArmyDisplayer.gd" id="1_feolf"]
+
+[node name="ArmyDisplayer" type="Node2D"]
+script = ExtResource("1_feolf")

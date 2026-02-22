@@ -7,6 +7,7 @@ func _ready():
 
 func render(target: Unit):
 	self.target = target
+	$ArmyDisplayer.render(target, func(x): return x.offset)
 	if target.leader:
 		$Labels/Name.text = target.leader.display()
 	else:

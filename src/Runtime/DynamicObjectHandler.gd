@@ -2,7 +2,16 @@ extends Node2D
 
 @export var current_depth: int = 0
 
-func render(depth, province = null):
+func render(depth):
+	if get_node(Commons.GameRoot).view == Commons.VIEWS.PROVINCE:
+		for i in get_children():
+			var pv = get_node(Commons.ProvinceView)
+			if i.depth == depth and pv.province.contains_position(i.position):
+				var center = Utils.new().get_center(pv.province.curves)
+				i.render(center * -pv.mult)
+			else:
+				i.derender()
+		return
 	for i in get_children():
 		if i.depth == depth:
 			i.render()
@@ -20,5 +29,4 @@ func _input(event):
 	if current_depth < 0:
 		current_depth = 0
 	if current_depth != odepth:
-		
 		render(current_depth)

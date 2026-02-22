@@ -61,9 +61,10 @@ func set_resolution_str(s: String):
 	set_resolution(resolutionFromStr(s))
 
 
-const DynamicObjects = "/root/Map/DynamicObjects"
-const GameTime = "/root/Map/GameTime"
-const Camera = "/root/Map/Camera2D"
+const DynamicObjects = GameRoot+"/DynamicObjects"
+const GameTime = GameRoot+"/GameTime"
+const Camera = GameRoot+"/Camera2D"
 const Player = "/root/Player"
-const ContextMenuHandler = "/root/Map/ContextMenuHandler"
+const ContextMenuHandler = GameRoot+"/ContextMenuHandler"
 const GameRoot = "/root/Map"
+const ProvinceView = GameRoot+"/ProvinceView"

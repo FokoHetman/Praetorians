@@ -50,12 +50,14 @@ func toggleView(viewc, province=null):
 			$Camera2D.position = savedCameraPos
 			$Camera2D.zoom = savedCameraZoom
 			toggleMap()
-	pass
+	var do = get_node(Commons.DynamicObjects)
+	do.render(do.current_depth)
 
 
 var province_view = null
 func spawnProvinceView(province):
 	province_view = preload("res://scenes/Province.tscn").instantiate()
+	province_view.name = "ProvinceView"
 	province_view.province = province
 	add_child(province_view)
 	province_view.redraw()
@@ -234,9 +236,8 @@ func define_countries():
 	var i: Unit = SimpleUnit.new(5,"unit.infantry")
 	var l: Array[Unit] = [i,i.duplicate(),i.duplicate(),i.duplicate(),i.duplicate(),i.duplicate(),i.duplicate(),i.duplicate(),i.duplicate(),i.duplicate()]
 	print(len(l))
-	var u = Unit.new("Centuria",
-		l
-		, Unit.Pattern.Checkboard, 4)
+	var u = Unit.new("Centuria", l, Unit.Pattern.Checkboard, 4)
+	u.position = Vector2(122,118)
 	u.leader = king
 	#u.set_culture(Commons.Culture.Roman) # ?
 	$DynamicObjects.add_child(u)

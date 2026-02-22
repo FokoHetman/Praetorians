@@ -77,3 +77,5 @@ func gen_area() -> Area2D:
 	self.area.add_child(gen_poly())
 	self.area.add_child(self.color_obj)
 	return self.area
+func contains_position(x: Vector2):
+	return Geometry2D.is_point_in_polygon(x, PackedVector2Array(utils.correctify(self.position,self.curves)))
